@@ -71,8 +71,14 @@ COPY --from=builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
 # Step 14 - Copy the application code
 COPY src ./src
 
-# Step 15 - Set the entrypoint
+# Step 15 - Set the working directory
+WORKDIR /src
+
+# Step 16 - Expose the FastAPI port
+EXPOSE 1337
+
+# Step 17 - Set the entrypoint
 ENTRYPOINT ["fastapi"]
 
-# Step 16 - Add the command arguments
-CMD ["dev", "--host", "127.1.0.0", "--port", "1337"]
+# Step 18 - Add the command arguments
+CMD ["dev", "--host", "0.0.0.0", "--port", "1337"]
