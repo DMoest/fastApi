@@ -4,7 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["Daniel Andersson <d.andersson86@icloud.com>"]
 readme = "README.md"
-packages = [{include = "*.", from = "app"}]
+packages = [{include = "*", from = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
