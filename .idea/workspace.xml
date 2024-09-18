@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2eefa36f-5714-4ec3-9e05-5759091d13bc" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DarkyenusTimeTracker">
+    <option name="totalTimeSeconds" value="25993" />
+    <option name="idleThresholdMs" value="180000" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Dockerfile" />
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="KubernetesApiProvider">{
+  &quot;contexts&quot;: [
+    {
+      &quot;name&quot;: &quot;rancher-desktop&quot;
+    }
+  ],
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="KubernetesSettings">
+    <option name="contextName" value="rancher-desktop" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="2m9RLDzuXBm6B2wFypnBpfY4AiO" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Docker.Docker Image.executor": "Run",
+    "Docker.Dockerfile.executor": "Run",
+    "Makefile Target.config-list.executor": "Run",
+    "Makefile Target.env-list.executor": "Run",
+    "Makefile Target.env-use.executor": "Run",
+    "Makefile Target.poetry-add-package.executor": "Run",
+    "Makefile Target.poetry-export-to-requirements.executor": "Run",
+    "Makefile Target.poetry-install-sync.executor": "Run",
+    "Makefile Target.poetry-install.executor": "Run",
+    "Makefile Target.poetry-lock.executor": "Run",
+    "Makefile Target.poetry-remove-all.executor": "Run",
+    "Makefile Target.poetry-remove-package.executor": "Run",
+    "Makefile Target.poetry-update-dependencies.executor": "Run",
+    "Makefile Target.poetry-update-dry-run.executor": "Run",
+    "Makefile Target.poetry-update.executor": "Run",
+    "Makefile Target.remove-lock-file.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/Users/daniel/PycharmProjects/fastApi-v1/logs/sphinx",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/logs/sphinx" />
+      <recent name="$PROJECT_DIR$/logs" />
+      <recent name="$PROJECT_DIR$/app/utils" />
+      <recent name="$PROJECT_DIR$/app/statics" />
+      <recent name="$PROJECT_DIR$/app/middlewares" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/docs" />
+      <recent name="$PROJECT_DIR$/src" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Docker.Dockerfile">
+    <configuration name="poetry-install" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
+      <makefile filename="$PROJECT_DIR$/Makefile" target="poetry-install" workingDirectory="" arguments="">
+        <envs />
+      </makefile>
+      <method v="2" />
+    </configuration>
+    <configuration name="poetry-lock" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
+      <makefile filename="$PROJECT_DIR$/Makefile" target="poetry-lock" workingDirectory="" arguments="">
+        <envs />
+      </makefile>
+      <method v="2" />
+    </configuration>
+    <configuration name="poetry-update-dry-run" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
+      <makefile filename="$PROJECT_DIR$/Makefile" target="poetry-update-dry-run" workingDirectory="" arguments="">
+        <envs />
+      </makefile>
+      <method v="2" />
+    </configuration>
+    <configuration name="Docker Image" type="docker-deploy" factoryName="docker-image" temporary="true" server-name="Docker">
+      <deployment type="docker-image">
+        <settings>
+          <option name="imageTag" value="danjustdanyeah/poetry_fastapi_server:lts" />
+          <option name="containerName" value="fastapi_server" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="Dockerfile" type="docker-deploy" factoryName="dockerfile" temporary="true" server-name="Docker">
+      <deployment type="dockerfile">
+        <settings>
+          <option name="imageTag" value="danjustdanyeah/poetry_fastapi_server:lts" />
+          <option name="buildCliOptions" value="--no-cache " />
+          <option name="containerName" value="fastapi_backend" />
+          <option name="sourceFilePath" value="Dockerfile" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="docker-image" temporary="true">
+      <deployment type="docker-image" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
+      <deployment type="dockerfile">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Docker.Dockerfile" />
+        <item itemvalue="Docker.Docker Image" />
+        <item itemvalue="Makefile Target.poetry-lock" />
+        <item itemvalue="Makefile Target.poetry-install" />
+        <item itemvalue="Makefile Target.poetry-update-dry-run" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-50da183f06c8-2887949eec09-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-233.13135.95" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2eefa36f-5714-4ec3-9e05-5759091d13bc" name="Changes" comment="" />
+      <created>1726486747900</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1726486747900</updated>
+      <workItem from="1726486748936" duration="5602000" />
+      <workItem from="1726505282188" duration="7490000" />
+      <workItem from="1726570833977" duration="235000" />
+      <workItem from="1726571105439" duration="54000" />
+      <workItem from="1726571236343" duration="598000" />
+      <workItem from="1726571936371" duration="20000" />
+      <workItem from="1726571983951" duration="90000" />
+      <workItem from="1726572112048" duration="1981000" />
+      <workItem from="1726577135108" duration="14052000" />
+      <workItem from="1726661502059" duration="5047000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

@@ -1,0 +1,36 @@
+[tool.poetry]
+name = "fastapi-v1"
+version = "0.1.0"
+description = ""
+authors = ["Daniel Andersson <d.andersson86@icloud.com>"]
+readme = "README.md"
+packages = [{include = "*.", from = "app"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = {extras = ["all"], version = "^0.114.2"}
+fastapi-cli = "^0.0.5"
+bpython = "^0.24"
+sphinx = "^8.0.2"
+requests = "^2.32.3"
+uvicorn = "^0.30.6"
+beanie = "^1.26.0"
+sqlalchemy = "^2.0.35"
+nanoid = "^2.0.0"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.3.3"
+faker = "^28.4.1"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.8.0"
+flake8 = "^7.1.1"
+isort = "^5.13.2"
+mypy = "^1.11.2"
+pylint = "^3.2.7"
+
+[tool.poetry.extras]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
