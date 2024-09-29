@@ -27,9 +27,7 @@ RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y --no-install-recommends \
     curl \
-    tree \
-    git \
-    fzf
+    tree
 
 # Step 4 - Install poetry
 RUN pip install poetry==1.8.3
