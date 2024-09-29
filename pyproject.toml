@@ -8,15 +8,21 @@ packages = [{include = "*", from = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
-fastapi = {extras = ["all"], version = "^0.114.2"}
+fastapi = {extras = ["all"], version = "^0.115.0"}
 fastapi-cli = "^0.0.5"
 bpython = "^0.24"
 sphinx = "^8.0.2"
 requests = "^2.32.3"
-uvicorn = "^0.30.6"
 beanie = "^1.26.0"
 sqlalchemy = "^2.0.35"
 nanoid = "^2.0.0"
+pydantic = "^2.9.2"
+pydantic-settings = "^2.5.2"
+psycopg2-binary = "^2.9.9"
+psycopg = {extras = ["binary", "pool"], version = "^3.2.2"}
+python-dotenv = "^1.0.1"
+uvicorn = "^0.30.6"
+asyncpg = "^0.29.0"
 
 [tool.poetry.group.test.dependencies]
 pytest = "^8.3.3"
