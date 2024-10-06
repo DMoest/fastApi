@@ -4,14 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2eefa36f-5714-4ec3-9e05-5759091d13bc" name="Changes" comment="" />
+    <list default="true" id="2eefa36f-5714-4ec3-9e05-5759091d13bc" name="Changes" comment="Add a router to the api_v1.py module">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/poetry.lock" beforeDir="false" afterPath="$PROJECT_DIR$/poetry.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pyproject.toml" beforeDir="false" afterPath="$PROJECT_DIR$/pyproject.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/custom_exceptions.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/exceptions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="DarkyenusTimeTracker">
-    <option name="totalTimeSeconds" value="25993" />
+    <option name="totalTimeSeconds" value="48331" />
     <option name="idleThresholdMs" value="180000" />
   </component>
   <component name="FileTemplateManagerImpl">
@@ -24,6 +30,25 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;DMoest&quot;
+  }
+}</component>
+  <component name="GithubDefaultAccount">
+    <option name="defaultAccountId" value="bb92c2b3-4272-48a9-bbb9-e39f42221239" />
+  </component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/DMoest/fastApi&quot;,
+    &quot;accountId&quot;: &quot;bb92c2b3-4272-48a9-bbb9-e39f42221239&quot;
+  }
+}</component>
+  <component name="JiraServerManager">
+    <selected>-1</selected>
+    <servers />
   </component>
   <component name="KubernetesApiProvider">{
   &quot;contexts&quot;: [
@@ -47,37 +72,50 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Docker.Docker Image.executor": "Run",
-    "Docker.Dockerfile.executor": "Run",
-    "Makefile Target.config-list.executor": "Run",
-    "Makefile Target.env-list.executor": "Run",
-    "Makefile Target.env-use.executor": "Run",
-    "Makefile Target.poetry-add-package.executor": "Run",
-    "Makefile Target.poetry-export-to-requirements.executor": "Run",
-    "Makefile Target.poetry-install-sync.executor": "Run",
-    "Makefile Target.poetry-install.executor": "Run",
-    "Makefile Target.poetry-lock.executor": "Run",
-    "Makefile Target.poetry-remove-all.executor": "Run",
-    "Makefile Target.poetry-remove-package.executor": "Run",
-    "Makefile Target.poetry-update-dependencies.executor": "Run",
-    "Makefile Target.poetry-update-dry-run.executor": "Run",
-    "Makefile Target.poetry-update.executor": "Run",
-    "Makefile Target.remove-lock-file.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/daniel/PycharmProjects/fastApi-v1/logs/sphinx",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Docker.Docker Image.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.Dockerfile.executor&quot;: &quot;Run&quot;,
+    &quot;FastAPI.Unnamed.executor&quot;: &quot;Run&quot;,
+    &quot;FastAPI.fastApi-v1.executor&quot;: &quot;Run&quot;,
+    &quot;Makefile Target.config-list.executor&quot;: &quot;Run&quot;,
+    &quot;Makefile Target.env-list.executor&quot;: &quot;Run&quot;,
+    &quot;Makefile Target.env-use.executor&quot;: &quot;Run&quot;,
+    &quot;Makefile Target.poetry-add-package.executor&quot;: &quot;Run&quot;,
+    &quot;Makefile Target.poetry-export-to-requirements.executor&quot;: &quot;Run&quot;,
+    &quot;Makefile Target.poetry-install-sync.executor&quot;: &quot;Run&quot;,
+    &quot;Makefile Target.poetry-install.executor&quot;: &quot;Run&quot;,
+    &quot;Makefile Target.poetry-lock.executor&quot;: &quot;Run&quot;,
+    &quot;Makefile Target.poetry-remove-all.executor&quot;: &quot;Run&quot;,
+    &quot;Makefile Target.poetry-remove-package.executor&quot;: &quot;Run&quot;,
+    &quot;Makefile Target.poetry-update-dependencies.executor&quot;: &quot;Run&quot;,
+    &quot;Makefile Target.poetry-update-dry-run.executor&quot;: &quot;Run&quot;,
+    &quot;Makefile Target.poetry-update.executor&quot;: &quot;Run&quot;,
+    &quot;Makefile Target.remove-lock-file.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowPanel.toolwindow.highlight.mappings&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowPanel.toolwindow.highlight.symlinks&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowPanel.toolwindow.show.date&quot;: &quot;false&quot;,
+    &quot;WebServerToolWindowPanel.toolwindow.show.permissions&quot;: &quot;false&quot;,
+    &quot;WebServerToolWindowPanel.toolwindow.show.size&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/daniel/PycharmProjects/fastApi-v1&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;web.server&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;sqlite&quot;,
+      &quot;postgresql&quot;
+    ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/logs/sphinx" />
@@ -91,7 +129,14 @@
       <recent name="$PROJECT_DIR$/src" />
     </key>
   </component>
-  <component name="RunManager" selected="Docker.Dockerfile">
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="Python.FastAPI" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="FastAPI.fastApi-v1">
     <configuration name="poetry-install" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
       <makefile filename="$PROJECT_DIR$/Makefile" target="poetry-install" workingDirectory="" arguments="">
         <envs />
@@ -110,6 +155,34 @@
       </makefile>
       <method v="2" />
     </configuration>
+    <configuration name="fastApi-v1" type="Python.FastAPI">
+      <option name="additionalOptions" value="--reload --port 1337" />
+      <option name="file" value="$PROJECT_DIR$/src/main.py" />
+      <module name="fastApi-v1" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="$USER_HOME$/Library/Caches/pypoetry/virtualenvs/fastapi-v1-k2SdlkB7-py3.11/bin/python" />
+      <option name="SDK_NAME" value="Poetry (fastApi-v1)" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <EXTENSION ID="net.ashald.envfile">
+        <option name="IS_ENABLED" value="true" />
+        <option name="IS_SUBST" value="false" />
+        <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+        <option name="IS_IGNORE_MISSING_FILES" value="false" />
+        <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
+        <ENTRIES>
+          <ENTRY IS_ENABLED="true" PARSER="runconfig" IS_EXECUTABLE="false" />
+          <ENTRY IS_ENABLED="true" PARSER="env" IS_EXECUTABLE="false" PATH=".env" />
+        </ENTRIES>
+      </EXTENSION>
+      <option name="launchJavascriptDebuger" value="false" />
+      <method v="2" />
+    </configuration>
     <configuration name="Docker Image" type="docker-deploy" factoryName="docker-image" temporary="true" server-name="Docker">
       <deployment type="docker-image">
         <settings>
@@ -123,15 +196,25 @@
       <deployment type="dockerfile">
         <settings>
           <option name="imageTag" value="danjustdanyeah/poetry_fastapi_server:lts" />
-          <option name="buildCliOptions" value="--no-cache " />
           <option name="containerName" value="fastapi_backend" />
+          <option name="portBindings">
+            <list>
+              <DockerPortBindingImpl>
+                <option name="containerPort" value="1337" />
+                <option name="hostIp" value="0.0.0.0" />
+                <option name="hostPort" value="1337" />
+              </DockerPortBindingImpl>
+            </list>
+          </option>
           <option name="sourceFilePath" value="Dockerfile" />
         </settings>
       </deployment>
       <method v="2" />
     </configuration>
     <configuration default="true" type="docker-deploy" factoryName="docker-image" temporary="true">
-      <deployment type="docker-image" />
+      <deployment type="docker-image">
+        <settings />
+      </deployment>
       <method v="2" />
     </configuration>
     <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
@@ -140,13 +223,18 @@
       </deployment>
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Docker.Docker Image" />
+      <item itemvalue="Docker.Dockerfile" />
+      <item itemvalue="FastAPI.fastApi-v1" />
+      <item itemvalue="Makefile Target.poetry-install" />
+      <item itemvalue="Makefile Target.poetry-lock" />
+      <item itemvalue="Makefile Target.poetry-update-dry-run" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Docker.Dockerfile" />
         <item itemvalue="Docker.Docker Image" />
-        <item itemvalue="Makefile Target.poetry-lock" />
-        <item itemvalue="Makefile Target.poetry-install" />
-        <item itemvalue="Makefile Target.poetry-update-dry-run" />
       </list>
     </recent_temporary>
   </component>
@@ -158,6 +246,9 @@
     </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration>$USER_HOME$/.subversion</configuration>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="2eefa36f-5714-4ec3-9e05-5759091d13bc" name="Changes" comment="" />
@@ -174,11 +265,207 @@
       <workItem from="1726571983951" duration="90000" />
       <workItem from="1726572112048" duration="1981000" />
       <workItem from="1726577135108" duration="14052000" />
-      <workItem from="1726661502059" duration="5047000" />
+      <workItem from="1726661502059" duration="5721000" />
+      <workItem from="1726667453929" duration="1034000" />
+      <workItem from="1726668509265" duration="2111000" />
+      <workItem from="1726683943751" duration="862000" />
+      <workItem from="1726684939569" duration="2072000" />
+      <workItem from="1726687092129" duration="120000" />
+      <workItem from="1726687243946" duration="95000" />
+      <workItem from="1726687364475" duration="1228000" />
+      <workItem from="1726688688011" duration="307000" />
+      <workItem from="1726689405098" duration="38000" />
+      <workItem from="1726689471873" duration="956000" />
+      <workItem from="1726690584934" duration="705000" />
+      <workItem from="1726691297171" duration="10220000" />
+      <workItem from="1726834155942" duration="2404000" />
+      <workItem from="1727090823518" duration="86000" />
+      <workItem from="1727091122050" duration="1578000" />
+      <workItem from="1727092815356" duration="4924000" />
+      <workItem from="1727592662860" duration="424000" />
+      <workItem from="1727593720107" duration="15023000" />
+      <workItem from="1728206640488" duration="350000" />
     </task>
+    <task id="LOCAL-00001" summary="Update the project Dockerfile">
+      <option name="closed" value="true" />
+      <created>1726686581430</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1726686581430</updated>
+    </task>
+    <task id="LOCAL-00002" summary="update .gitignore">
+      <option name="closed" value="true" />
+      <created>1726686718231</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1726686718231</updated>
+    </task>
+    <task id="LOCAL-00003" summary="update pyproject.toml">
+      <option name="closed" value="true" />
+      <created>1726686774811</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1726686774811</updated>
+    </task>
+    <task id="LOCAL-00004" summary="update .gitignore">
+      <option name="closed" value="true" />
+      <created>1726686849758</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1726686849758</updated>
+    </task>
+    <task id="LOCAL-00005" summary="update .gitignore">
+      <option name="closed" value="true" />
+      <created>1726686869834</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1726686869834</updated>
+    </task>
+    <task id="LOCAL-00006" summary="update .gitignore">
+      <option name="closed" value="true" />
+      <created>1727593816654</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1727593816654</updated>
+    </task>
+    <task id="LOCAL-00007" summary="update .python-version">
+      <option name="closed" value="true" />
+      <created>1727593841897</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1727593841897</updated>
+    </task>
+    <task id="LOCAL-00008" summary="add __init__.py to folders src/db/config och src/db/connectors">
+      <option name="closed" value="true" />
+      <created>1727593923527</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1727593923527</updated>
+    </task>
+    <task id="LOCAL-00009" summary="update dependency declaration files pyproject.toml and poetry.lock">
+      <option name="closed" value="true" />
+      <created>1727593963346</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1727593963346</updated>
+    </task>
+    <task id="LOCAL-00010" summary="update Dockerfile">
+      <option name="closed" value="true" />
+      <created>1727593984199</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1727593984199</updated>
+    </task>
+    <task id="LOCAL-00011" summary="update .gitignore">
+      <option name="closed" value="true" />
+      <created>1727594028870</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1727594028870</updated>
+    </task>
+    <task id="LOCAL-00012" summary="regenerate a new poetry.lock file">
+      <option name="closed" value="true" />
+      <created>1727594060932</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1727594060932</updated>
+    </task>
+    <task id="LOCAL-00013" summary="add core module auth.py">
+      <option name="closed" value="true" />
+      <created>1727594094148</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1727594094148</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Add environmental management config file">
+      <option name="closed" value="true" />
+      <created>1728206800358</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1728206800358</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Update postgres connector module">
+      <option name="closed" value="true" />
+      <created>1728206848007</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1728206848007</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Add a sqlite_db.py database connector module">
+      <option name="closed" value="true" />
+      <created>1728206905261</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1728206905261</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Rename the mongodb.py to mongo_db.py">
+      <option name="closed" value="true" />
+      <created>1728206928801</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1728206928801</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Add a router to the api_v1.py module">
+      <option name="closed" value="true" />
+      <created>1728206989922</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1728206989922</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Update the project Dockerfile" />
+    <MESSAGE value="update pyproject.toml" />
+    <MESSAGE value="update .python-version" />
+    <MESSAGE value="add __init__.py to folders src/db/config och src/db/connectors" />
+    <MESSAGE value="update dependency declaration files pyproject.toml and poetry.lock" />
+    <MESSAGE value="update Dockerfile" />
+    <MESSAGE value="update .gitignore" />
+    <MESSAGE value="regenerate a new poetry.lock file" />
+    <MESSAGE value="add core module auth.py" />
+    <MESSAGE value="Add environmental management config file" />
+    <MESSAGE value="Update postgres connector module" />
+    <MESSAGE value="Add a sqlite_db.py database connector module" />
+    <MESSAGE value="Rename the mongodb.py to mongo_db.py" />
+    <MESSAGE value="Add a router to the api_v1.py module" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add a router to the api_v1.py module" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/fastApi_v1$Unnamed.coverage" NAME="fastApi-v1 Coverage Results" MODIFIED="1728202024440" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/fastApi_v1$fastApi_v1.coverage" NAME="fastApi-v1 Coverage Results" MODIFIED="1728203423314" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
   </component>
 </project>
