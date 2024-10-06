@@ -1,114 +1,88 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-
 """
-PostgreSQL Database configuration module for the FastAPI application.
+Postgres Database configuration module for the FastAPI application.
 
-This module contains the configuration for the PostgreSQL database used in
-the application.
-
-The following functions are defined:
-
-- init_db: Function to initialize the database.
-- get_db: Function to get a database session.
-- run_pg_dump: Function to run the pg_dump command to backup the database.
-
-Each function includes a detailed docstring with information about its
-purpose, the parameters it takes, the response it returns, and any
-exceptions it might raise.
+This module contains the `PostgresConnector` class, which manages the PostgreSQL
+database connection using SQLAlchemy's asynchronous engine and session maker.
 """
 
-# import subprocess
-# from app.config import get_settings
-# from app.exceptions.custom_exceptions import DatabaseError
-# from sqlalchemy import create_engine
-# from sqlalchemy.orm import sessionmaker
+import os
+from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine, AsyncSession
+from src.core.config import get_settings
 
-# Import all models here...
-# from app.db.v1_models.ab_point_model import ABPoint
-# from app.db.v1_models.boundary_point_model import BoundaryPoint
-# from app.db.v1_models.detection_model import Detection
-# from app.db.v1_models.field_model import Field
-# from app.db.v1_models.location_model import Location
-# from app.db.v1_models.mission_model import Mission
-# from app.db.v1_models.robot_model import Robot
-# from app.db.v1_models.row_model import Row
-# from app.db.v1_models.row_point_model import RowPoint
-# from app.db.v1_models.sliproad_model import Sliproad
-# from app.db.v1_models.sliproad_point_model import SliproadPoint
-# from app.db.v1_models.tool_model import Tool
-# from app.db.v1_models.user_model import User
-
-# Get the database URL from the settings
-settings = get_settings()
-DATABASE_URL = settings.pg_db_url
-
-# Create the database engine
-engine = create_engine(DATABASE_URL)
-
-# Create a sessionmaker class
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-
-def init_db():
+class PostgresConnector:
     """
-    Function to initialize the database.
+    A class to manage the PostgreSQL database connection for a FastAPI application.
 
-    This function does not take any parameters and does not return anything.
+    This class encapsulates the configuration and management of the PostgreSQL
+    database connection using SQLAlchemy's asynchronous engine and session maker.
+
+    :ivar POSTGRES_DATABASE_URL: The database URL for connecting to PostgreSQL.
+    :vartype POSTGRES_DATABASE_URL: str
+    :ivar pgsql_engine: The SQLAlchemy asynchronous engine for the database.
+    :vartype pgsql_engine: AsyncEngine
+    :ivar AsyncSessionLocal: The SQLAlchemy session maker for creating async sessions.
+    :vartype AsyncSessionLocal: async_sessionmaker
+
+    Methods
+    -------
+    get_db() -> AsyncSession
+        Asynchronously yields a database session.
+
+    get_db_connection_str() -> str
+        Returns the database connection string.
     """
-    # User.metadata.create_all(engine)
-    # Robot.metadata.create_all(engine)
-    # Tool.metadata.create_all(engine)
-    # Mission.metadata.create_all(engine)
-    # ABPoint.metadata.create_all(engine)
-    # BoundaryPoint.metadata.create_all(engine)
-    # Location.metadata.create_all(engine)
-    # Field.metadata.create_all(engine)
-    # Sliproad.metadata.create_all(engine)
-    # SliproadPoint.metadata.create_all(engine)
-    # Row.metadata.create_all(engine)
-    # RowPoint.metadata.create_all(engine)
-    # Detection.metadata.create_all(engine)
+    def __init__(self, db_path: str):
+        """
+        Initialize the PostgresConnector instance.
 
+        This method sets up the database URL, creates an asynchronous database engine,
+        and initializes the asynchronous session maker.
 
-def get_db():
-    """
-    Function to get a database session.
+        Attributes
+        ----------
+        POSTGRES_DATABASE_URL : str
+            The database URL for connecting to PostgreSQL, modified to use the asyncpg driver.
+        pgsql_engine : AsyncEngine
+            The SQLAlchemy asynchronous engine for the database.
+        AsyncSessionLocal : async_sessionmaker
+            The SQLAlchemy session maker for creating async sessions.
+        """
+        print(f"Initializing Postgres connector with db_path: {db_path}")
 
-    This function does not take any parameters and returns a database session.
-
-    """
-    db = SessionLocal()
-
-    try:
-        yield db
-    finally:
-        db.close()
-
-
-def run_pg_dump(command: str) -> bytes:
-    """
-    Run the pg_dump command to backup the database.
-
-    :param command: Command to run.
-    :type command: str
-    :return: Output of the command.
-    :rtype: bytes
-    :raises DatabaseError: If there is an error running the command.
-
-    """
-    try:
-        process = subprocess.Popen(
-            command,
-            shell=True,
-            stdout=subprocess.PIPE
+        settings = get_settings()
+        self.POSTGRES_DATABASE_URL = f"postgresql+asyncpg://{db_path}"
+        self.pgsql_engine = create_async_engine(self.POSTGRES_DATABASE_URL)
+        self.AsyncSessionLocal = async_sessionmaker(
+            autocommit=False,
+            autoflush=False,
+            bind=self.pgsql_engine,
+            class_=AsyncSession,
+            expire_on_commit=False
         )
-        output, error = process.communicate()
 
-        if error:
-            raise DatabaseError(error)
-        return output
+    async def get_db(self) -> AsyncSession:
+        """
+        Method to get a database session.
 
-    except DatabaseError as error:
-        raise error
+        This method does not take any parameters and returns a database session.
+
+        :return: A database session.
+        :rtype: AsyncSession
+        """
+        async with self.AsyncSessionLocal() as db:
+            try:
+                yield db
+            finally:
+                await db.close()
+
+    def get_db_connection_str(self) -> str:
+        """
+        Method to get the database connection string.
+
+        :return: The database connection string.
+        :rtype: str
+        """
+        return self.POSTGRES_DATABASE_URL
