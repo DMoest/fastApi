@@ -11,7 +11,6 @@ from collections import namedtuple
 from datetime import datetime
 from typing import List, Optional
 from pydantic import BaseModel, Field
-from sqlalchemy import String
 from src.utils.nano_id import generate_nano_id
 
 
@@ -133,13 +132,13 @@ class UserOutput(UserCreate):
         """
         return json.dumps(self.dict(), indent=2)
 
-    def __eq__(self, other: UserOutput) -> bool:
+    def __eq__(self, other) -> bool:
         """
         Compares two UserOutput instances for equality.
         """
         return self.dict() == other.dict()
 
-    def __ne__(self, other: UserOutput) -> bool:
+    def __ne__(self, other) -> bool:
         """
         Compares two UserOutput instances for inequality.
         """
