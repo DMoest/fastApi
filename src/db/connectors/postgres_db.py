@@ -9,8 +9,11 @@ database connection using SQLAlchemy's asynchronous engine and session maker.
 """
 
 import os
-from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine, AsyncSession
+import urllib.parse as urlparse
+from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine, \
+    AsyncSession
 from src.core.config import get_settings
+
 
 class PostgresConnector:
     """
@@ -34,7 +37,8 @@ class PostgresConnector:
     get_db_connection_str() -> str
         Returns the database connection string.
     """
-    def __init__(self, db_path: str):
+
+    def __init__(self, db_connection_str: str = None):
         """
         Initialize the PostgresConnector instance.
 
@@ -50,11 +54,19 @@ class PostgresConnector:
         AsyncSessionLocal : async_sessionmaker
             The SQLAlchemy session maker for creating async sessions.
         """
-        print(f"Initializing Postgres connector with db_path: {db_path}")
+        self._env_settings = get_settings()
+        if db_connection_str is None:
+            self._postgres_database_url = self._env_settings.pg_db_url.replace(
+                "postgresql://", "postgresql+asyncpg://")
+        else:
+            self._postgres_database_url = db_connection_str.replace(
+                "postgresql://", "postgresql+asyncpg://")
 
-        settings = get_settings()
-        self.POSTGRES_DATABASE_URL = f"postgresql+asyncpg://{db_path}"
-        self.pgsql_engine = create_async_engine(self.POSTGRES_DATABASE_URL)
+        self.pgsql_engine = create_async_engine(
+            self._postgres_database_url,
+            future=True,
+            echo=True,
+        )
         self.AsyncSessionLocal = async_sessionmaker(
             autocommit=False,
             autoflush=False,
@@ -85,4 +97,10 @@ class PostgresConnector:
         :return: The database connection string.
         :rtype: str
         """
-        return self.POSTGRES_DATABASE_URL
+        return f"""
+        dbname={self._env_settings.pg_db_name}
+        user={self._env_settings.pg_db_username}
+        password={self._env_settings.pg_db_password}
+        host={self._env_settings.pg_db_host}
+        port={self._env_settings.pg_db_port}
+        """

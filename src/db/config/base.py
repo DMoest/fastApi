@@ -15,7 +15,7 @@ Each class includes a detailed docstring with information about its purpose.
 
 """
 from sqlalchemy.orm import DeclarativeBase, mapped_column, Mapped
-from app.utils.nano_id import generate_nano_id
+from src.utils.nano_id import generate_nano_id
 
 
 class Base(DeclarativeBase):

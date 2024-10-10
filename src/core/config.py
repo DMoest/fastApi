@@ -19,6 +19,8 @@ class Settings(BaseSettings):
 
     # --- Environment -------------------------------------------------------
     env_name: str = Field(default="development", env_name="ENV_NAME")
+    pyenv_version: str = Field(default="3.11.4", env_name="PYENV_VERSION")
+    app_debug: bool = Field(default=False, env_name="APP_DEBUG")
 
     # --- Application -------------------------------------------------------
     app_name: str = Field(default="Fast API application", env_name="APP_NAME")

@@ -7,6 +7,8 @@ User model for the database
 
 from datetime import datetime
 from sqlalchemy import Column, String, Boolean, DateTime
+from sqlalchemy.orm import Mapped
+
 from src.db.config.base import Base
 
 

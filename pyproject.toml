@@ -4,30 +4,31 @@ version = "0.1.0"
 description = ""
 authors = ["Daniel Andersson <d.andersson86@icloud.com>"]
 readme = "README.md"
-packages = [{include = "*", from = "src"}]
+packages = [{ include = "*", from = "src" }]
 
 [tool.poetry.dependencies]
-python = "^3.11"
-fastapi = {extras = ["all"], version = "^0.115.0"}
-fastapi-cli = "^0.0.5"
+asyncpg = "^0.29.0"
+aiosqlite = "^0.20.0"
+alembic = "^1.13.3"
 bpython = "^0.24"
-sphinx = "^8.0.2"
-requests = "^2.32.3"
 beanie = "^1.26.0"
-sqlalchemy = "^2.0.35"
+fastapi = { extras = ["all"], version = "^0.115.0" }
+fastapi-cli = "^0.0.5"
 nanoid = "^2.0.0"
+python = "^3.11"
 pydantic = "^2.9.2"
 pydantic-settings = "^2.5.2"
 psycopg2-binary = "^2.9.9"
-psycopg = {extras = ["binary", "pool"], version = "^3.2.2"}
+psycopg = { extras = ["binary", "pool"], version = "^3.2.2" }
 python-dotenv = "^1.0.1"
+requests = "^2.32.3"
+sphinx = "^8.0.2"
+sqlalchemy = "^2.0.35"
 uvicorn = "^0.30.6"
-asyncpg = "^0.29.0"
-aiosqlite = "^0.20.0"
 
 [tool.poetry.group.test.dependencies]
-pytest = "^8.3.3"
 faker = "^28.4.1"
+pytest = "^8.3.3"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.8.0"
