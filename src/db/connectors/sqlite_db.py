@@ -8,7 +8,11 @@ This module contains the `SQLiteConnector` class, which manages the SQLite
 database connection using SQLAlchemy's asynchronous engine and session maker.
 """
 
-from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine, AsyncSession
+from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine, \
+    AsyncSession
+
+from core.config import get_settings
+
 
 class SQLiteConnector:
     """
@@ -32,7 +36,8 @@ class SQLiteConnector:
     get_db_connection_str() -> str
         Returns the database connection string.
     """
-    def __init__(self, db_path: str):
+
+    def __init__(self, db_path: str = None):
         """
         Initialize the SQLiteConnector instance.
 
@@ -43,9 +48,18 @@ class SQLiteConnector:
         :type db_path: str
         """
         print(f"Initializing SQLite connector with db_path: {db_path}")
+        settings = get_settings()
 
-        self.DATABASE_URL = f"sqlite+aiosqlite:///{db_path}"
-        self.sqlite_engine = create_async_engine(self.DATABASE_URL)
+        if db_path is None:
+            self._database_url = settings.sqlite_db_url.replace(
+                "sqlite://",
+                "sqlite+aiosqlite://")
+        else:
+            self._database_url = db_path.replace(
+                "sqlite://",
+                "sqlite+aiosqlite://")
+
+        self.sqlite_engine = create_async_engine(self._database_url)
         self.AsyncSessionLocal = async_sessionmaker(
             autocommit=False,
             autoflush=False,
@@ -69,11 +83,11 @@ class SQLiteConnector:
             finally:
                 await db.close()
 
-    def get_db_connection_str(self) -> str:
+    def get_db_ulr(self) -> str:
         """
-        Method to get the database connection string.
+        Method to get the database URL.
 
-        :return: The database connection string.
+        :return: The database URL.
         :rtype: str
         """
-        return self.DATABASE_URL
+        return self._database_url
