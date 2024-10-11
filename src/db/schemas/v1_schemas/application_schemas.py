@@ -8,8 +8,10 @@ Application schema for the database
 import json
 from collections import namedtuple
 from datetime import datetime
-from typing import List, Optional
-from pydantic import BaseModel, Field
+from typing import Optional
+
+from pydantic import BaseModel, Field, ConfigDict, field_serializer
+
 from src.utils.nano_id import generate_nano_id
 
 
@@ -29,18 +31,18 @@ class ApplicationCreate(BaseModel):
     updated_at: datetime = datetime.utcnow()
     deleted_at: Optional[datetime] = None
 
-    class Config:
-        """
-        Pydantic configuration schema. Inherits from BaseModel.Config.
-        """
-        from_attributes = True
-        str_strip_whitespace = True
-        arbitrary_types_allowed = True
-        str_min_length = 1
-        str_max_length = 255
-        json_encoders = {
-            datetime: lambda dt: dt.timestamp()
-        }
+    @field_serializer('created_at', 'updated_at', 'deleted_at')
+    def serialize_datetime(self, value: datetime) -> float:
+        """ Serialize datetime to timestamp """
+        return value.timestamp()
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        str_strip_whitespace=True,
+        arbitrary_types_allowed=True,
+        str_min_length=1,
+        str_max_length=255
+    )
 
 
 class ApplicationUpdate(BaseModel):
@@ -54,20 +56,21 @@ class ApplicationUpdate(BaseModel):
     api_key: Optional[str] = None
 
     # Timestamps
-    updated_at: datetime = datetime.utcnow()
+    updated_at: Optional[datetime] = datetime.utcnow()
+    deleted_at: Optional[datetime]
 
-    class Config:
-        """
-        Pydantic configuration schema. Inherits from BaseModel.Config.
-        """
-        from_attributes = True
-        str_strip_whitespace = True
-        arbitrary_types_allowed = True
-        str_min_length = 1
-        str_max_length = 255
-        json_encoders = {
-            datetime: lambda dt: dt.timestamp()
-        }
+    @field_serializer('updated_at', 'deleted_at')
+    def serialize_datetime(self, value: datetime) -> float:
+        """ Serialize datetime to timestamp """
+        return value.timestamp()
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        str_strip_whitespace=True,
+        arbitrary_types_allowed=True,
+        str_min_length=1,
+        str_max_length=255
+    )
 
 
 class ApplicationOutput(ApplicationCreate):
@@ -80,19 +83,6 @@ class ApplicationOutput(ApplicationCreate):
     url: Optional[str] = None
     is_active: Optional[bool] = None
     api_key: Optional[str] = None
-
-    class Config:
-        """
-        Pydantic configuration schema. Inherits from UserCreate.Config.
-        """
-        from_attributes = True
-        str_strip_whitespace = True
-        arbitrary_types_allowed = True
-        str_min_length = 1
-        str_max_length = 255
-        json_encoders = {
-            datetime: lambda dt: dt.timestamp()
-        }
 
     def __str__(self) -> str:
         """
