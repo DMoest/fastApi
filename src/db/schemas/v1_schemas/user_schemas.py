@@ -9,8 +9,10 @@ User schema for the database
 import json
 from collections import namedtuple
 from datetime import datetime
-from typing import List, Optional
-from pydantic import BaseModel, Field
+from typing import Optional
+
+from pydantic import BaseModel, Field, ConfigDict, field_serializer
+
 from src.utils.nano_id import generate_nano_id
 
 
@@ -40,18 +42,18 @@ class UserCreate(BaseModel):
     updated_at: datetime = datetime.utcnow()
     deleted_at: Optional[datetime] = None
 
-    class Config:
-        """
-        Pydantic configuration schema. Inherits from BaseModel.Config.
-        """
-        from_attributes = True
-        str_strip_whitespace = True
-        arbitrary_types_allowed = True
-        str_min_length = 1
-        str_max_length = 255
-        json_encoders = {
-            datetime: lambda dt: dt.timestamp()
-        }
+    @field_serializer('created_at', 'updated_at', 'deleted_at')
+    def serialize_datetime(self, value: Optional[datetime]) -> Optional[float]:
+        """ Serialize datetime to timestamp """
+        return value.timestamp() if value else None
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        str_strip_whitespace=True,
+        arbitrary_types_allowed=True,
+        str_min_length=1,
+        str_max_length=255
+    )
 
 
 class UserUpdate(BaseModel):
@@ -71,6 +73,19 @@ class UserUpdate(BaseModel):
     country: Optional[str]
     zip_code: Optional[str]
 
+    # User roles
+    is_active: Optional[bool]
+    is_superuser: Optional[bool]
+
+    # Timestamps
+    updated_at: Optional[datetime] = datetime.utcnow()
+    deleted_at: Optional[datetime]
+
+    @field_serializer('updated_at', 'deleted_at')
+    def serialize_datetime(self, value: Optional[datetime]) -> Optional[float]:
+        """ Serialize datetime to timestamp """
+        return value.timestamp() if value else None
+
 
 class UserSimple(BaseModel):
     """
@@ -82,26 +97,21 @@ class UserSimple(BaseModel):
     first_name: str
     last_name: str
 
-    class Config:
-        """
-        Pydantic configuration schema. Inherits from BaseModel.Config.
-        """
-        from_attributes = True
-        str_min_length = 1
-        str_max_length = 255
-        str_strip_whitespace = True
-        arbitrary_types_allowed = True
-        json_encoders = {
-            datetime: lambda dt: dt.timestamp()
-        }
+    model_config = ConfigDict(
+        from_attributes=True,
+        str_strip_whitespace=True,
+        arbitrary_types_allowed=True,
+        str_min_length=1,
+        str_max_length=255
+    )
 
 
 class UserOutput(UserCreate):
     """
     Schema for retrieving a User instance.
     """
-    id: Optional[str]
-    username: Optional[str]
+    id: str
+    username: str
     email: Optional[str]
     hashed_password: Optional[str]
     first_name: Optional[str]
@@ -113,18 +123,14 @@ class UserOutput(UserCreate):
     country: Optional[str]
     zip_code: Optional[str]
 
-    class Config:
-        """
-        Pydantic configuration schema. Inherits from UserCreate.Config.
-        """
-        from_attributes = True
-        str_strip_whitespace = True
-        arbitrary_types_allowed = True
-        str_min_length = 1
-        str_max_length = 255
-        json_encoders = {
-            datetime: lambda dt: dt.timestamp()
-        }
+    # User roles
+    is_active: Optional[bool]
+    is_superuser: Optional[bool]
+
+    # Timestamps
+    created_at: Optional[datetime]
+    updated_at: Optional[datetime]
+    deleted_at: Optional[datetime] = None
 
     def __str__(self) -> str:
         """
