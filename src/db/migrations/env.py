@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 
 # Import all db models here...
 from src.db.models.v1_models.users_model import UserModel
+from src.db.models.v1_models.applications_model import ApplicationModel
 
 # Load environment variables from .env file
 load_dotenv()
