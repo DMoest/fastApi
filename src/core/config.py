@@ -5,8 +5,8 @@
 This module contains the configuration settings for the FastAPI application.
 """
 
-import os
 from functools import lru_cache
+
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -82,6 +82,22 @@ class Settings(BaseSettings):
     pg_db_backup_dir: str = Field(default="./src/db/backups",
                                   json_schema_extra={
                                       "env_name": "PG_DB_BACKUP_DIR"})
+    pg_db_connection_pool_size: int = Field(default=100, json_schema_extra={
+        "env_name": "PG_DB_CONNECTION_POOL_SIZE"})
+    pg_db_max_overflow: int = Field(default=0, json_schema_extra={
+        "env_name": "PG_DB_MAX_OVERFLOW"})
+    pg_db_echo: bool = Field(default=False, json_schema_extra={
+        "env_name": "PG_DB_ECHO"})
+    pg_db_future: bool = Field(default=True, json_schema_extra={
+        "env_name": "PG_DB_FUTURE"})
+    pg_db_auto_commit: bool = Field(default=False, json_schema_extra={
+        "env_name": "PG_DB_AUTO_COMMIT"})
+    pg_db_auto_flush: bool = Field(default=False, json_schema_extra={
+        "env_name": "PG_DB_AUTO_FLUSH"})
+    pg_db_pre_ping: bool = Field(default=True, json_schema_extra={
+        "env_name": "PG_DB_PRE_PING"})
+    pg_db_expire_on_commit: bool = Field(default=False, json_schema_extra={
+        "env_name": "PG_DB_EXPIRE_ON_COMMIT"})
 
     # --- MongoDB Database ---------------------------------------------------
     mongo_db_url: str = Field(
