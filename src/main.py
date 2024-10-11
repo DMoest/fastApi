@@ -8,12 +8,23 @@ This module is the main entry point of the FastAPI application.
 
 import os
 from contextlib import asynccontextmanager
-from fastapi import FastAPI
-from src.core import config
-from src.db.connectors.postgres_db import PostgresConnector
-from src.db.connectors.sqlite_db import SQLiteConnector
-from src.core.config import get_settings
+
+from fastapi import FastAPI, Depends
 from psycopg_pool import AsyncConnectionPool
+
+from api.api_v1 import api_v1_router
+from core.custom_exceptions import AuthException, BadRequestException, \
+    ConflictException, DatabaseException, InternalServerException, \
+    NotFoundException, ValidationException, HTTPException
+from src.core import config
+from src.core.auth import get_api_key
+from src.core.config import get_settings
+from src.core.exception_handlers import auth_exception_handler, \
+    bab_request_exception_handler, conflict_exception_handler, \
+    database_exception_handler, http_exception_handler, \
+    internal_server_exception_handler, not_found_exception_handler, \
+    validation_exception_handler
+from src.db.connectors.postgres_db import PgsqlDbSessionManager
 from src.middlewares.logger import LoggerMiddleware
 
 
@@ -25,9 +36,8 @@ async def app_lifespan(app_instance: FastAPI):
     app_instance.settings = config.get_settings()
 
     # Initialize the database connector instances
-    postgres_connector = PostgresConnector()
-    sqlite_connector = SQLiteConnector(
-        db_path=app_instance.settings.sqlite_db_url)
+    postgres_connector = PgsqlDbSessionManager()
+    # sqlite_connector = SQLiteConnector()
 
     # Initialize the database connection pool
     app_instance.async_pool = AsyncConnectionPool(
@@ -36,6 +46,7 @@ async def app_lifespan(app_instance: FastAPI):
 
     yield  # Pause for code to run here (API runtime)
 
+    # Close the database connection pool
     await app_instance.async_pool.close()
 
 
@@ -55,8 +66,25 @@ origins = ["*"]
 # Initialize settings from environment configuration
 settings = get_settings()
 
+# Exception handlers
+app.add_exception_handler(AuthException, auth_exception_handler)
+app.add_exception_handler(BadRequestException, bab_request_exception_handler)
+app.add_exception_handler(ConflictException, conflict_exception_handler)
+app.add_exception_handler(DatabaseException, database_exception_handler)
+app.add_exception_handler(InternalServerException,
+                          internal_server_exception_handler)
+app.add_exception_handler(NotFoundException, not_found_exception_handler)
+app.add_exception_handler(ValidationException, validation_exception_handler)
+app.add_exception_handler(HTTPException, http_exception_handler)
+
 # Middleware
 app.add_middleware(LoggerMiddleware)
+
+# Include routers
+app.include_router(
+    api_v1_router,
+    dependencies=[Depends(get_api_key)]
+)
 
 if __name__ == "__main__":
     import uvicorn
