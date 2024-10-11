@@ -8,93 +8,96 @@ This module contains the `PostgresConnector` class, which manages the PostgreSQL
 database connection using SQLAlchemy's asynchronous engine and session maker.
 """
 
-import os
-import urllib.parse as urlparse
-from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine, \
-    AsyncSession
+from asyncio import current_task
+from collections.abc import AsyncIterator
+
+from sqlalchemy.ext.asyncio import async_sessionmaker, async_scoped_session, \
+    create_async_engine, AsyncSession
+
 from src.core.config import get_settings
+from src.core.custom_exceptions import DatabaseException
 
 
-class PostgresConnector:
+class PgsqlDbSessionManager:
     """
-    A class to manage the PostgreSQL database connection for a FastAPI application.
-
-    This class encapsulates the configuration and management of the PostgreSQL
-    database connection using SQLAlchemy's asynchronous engine and session maker.
-
-    :ivar POSTGRES_DATABASE_URL: The database URL for connecting to PostgreSQL.
-    :vartype POSTGRES_DATABASE_URL: str
-    :ivar pgsql_engine: The SQLAlchemy asynchronous engine for the database.
-    :vartype pgsql_engine: AsyncEngine
-    :ivar AsyncSessionLocal: The SQLAlchemy session maker for creating async sessions.
-    :vartype AsyncSessionLocal: async_sessionmaker
-
-    Methods
-    -------
-    get_db() -> AsyncSession
-        Asynchronously yields a database session.
-
-    get_db_connection_str() -> str
-        Returns the database connection string.
+    A session manager class for the Postgres database connection within a
+    FastAPI application. This class manages the creation and disposal of
+    asynchronous database sessions using SQLAlchemy.
     """
 
     def __init__(self, db_connection_str: str = None):
         """
-        Initialize the PostgresConnector instance.
+        Constructor method for the PgsqlDbSessionManager class to
+        initialize the database connection instance.
 
-        This method sets up the database URL, creates an asynchronous database engine,
-        and initializes the asynchronous session maker.
+        This method sets up the database connection string, creates the
+        asynchronous database engine, session maker, and scoped session.
 
-        Attributes
-        ----------
-        POSTGRES_DATABASE_URL : str
-            The database URL for connecting to PostgreSQL, modified to use the asyncpg driver.
-        pgsql_engine : AsyncEngine
-            The SQLAlchemy asynchronous engine for the database.
-        AsyncSessionLocal : async_sessionmaker
-            The SQLAlchemy session maker for creating async sessions.
+        :param db_connection_str: The database connection string.
+        :type db_connection_str: str
         """
         self._env_settings = get_settings()
+
+        # Set the database connection string based on the environment
+        # settings or a provided case specific connector string...
         if db_connection_str is None:
-            self._postgres_database_url = self._env_settings.pg_db_url.replace(
-                "postgresql://", "postgresql+asyncpg://")
+            self._postgres_database_url = (
+                str(self._env_settings.pg_db_url).replace(
+                    "postgresql://", "postgresql+asyncpg://"))
         else:
             self._postgres_database_url = db_connection_str.replace(
                 "postgresql://", "postgresql+asyncpg://")
 
-        self.pgsql_engine = create_async_engine(
+        # Create the async database engine...
+        self.pgsql_db_engine = create_async_engine(
             self._postgres_database_url,
-            future=True,
-            echo=True,
+            future=self._env_settings.pg_db_future,
+            echo=self._env_settings.pg_db_echo,
+            pool_size=self._env_settings.pg_db_connection_pool_size,
+            max_overflow=self._env_settings.pg_db_max_overflow,
         )
-        self.AsyncSessionLocal = async_sessionmaker(
-            autocommit=False,
-            autoflush=False,
-            bind=self.pgsql_engine,
+
+        # Create the async session maker...
+        self.session_maker = async_sessionmaker(
+            autocommit=self._env_settings.pg_db_auto_commit,
+            autoflush=self._env_settings.pg_db_auto_flush,
+            bind=self.pgsql_db_engine,
             class_=AsyncSession,
-            expire_on_commit=False
+            expire_on_commit=self._env_settings.pg_db_expire_on_commit,
         )
 
-    async def get_db(self) -> AsyncSession:
+        # Create the scoped session...
+        self.scoped_session = async_scoped_session(
+            self.session_maker,
+            scopefunc=current_task,
+        )
+
+    def get_session(self) -> AsyncSession:
         """
-        Method to get a database session.
+        Get a new asynchronous database session.
 
-        This method does not take any parameters and returns a database session.
-
-        :return: A database session.
+        :return: A new asynchronous database session.
         :rtype: AsyncSession
         """
-        async with self.AsyncSessionLocal() as db:
-            try:
-                yield db
-            finally:
-                await db.close()
+        return self.session_maker()
+
+    async def close_session(self):
+        """
+        Close the asynchronous database session. This method disposes of
+        the database engine, effectively closing all active sessions.
+
+        :raises DatabaseException: If the database engine is not initialized.
+        :return: None
+        """
+        if self.pgsql_db_engine is not None:
+            raise DatabaseException("Database engine is not initialized...")
+        await self.pgsql_db_engine.dispose()
 
     def get_db_connection_str(self) -> str:
         """
-        Method to get the database connection string.
+         Get the Postgres database connection string.
 
-        :return: The database connection string.
+        :return: The Postgres database connection string.
         :rtype: str
         """
         return f"""
@@ -104,3 +107,31 @@ class PostgresConnector:
         host={self._env_settings.pg_db_host}
         port={self._env_settings.pg_db_port}
         """
+
+
+# Initialize the PgsqlDbSessionManager instance
+session_manager = PgsqlDbSessionManager()
+
+
+async def get_db() -> AsyncIterator[AsyncSession]:
+    """
+    Get a new session for the database. This method retrieves a new
+    asynchronous database session from the session manager. If the session
+    manager is not initialized correctly, it raises a DatabaseException.
+
+    :raises DatabaseException: If the PgsqlDbSessionManager is not
+        initialized correctly.
+    :yield: A new asynchronous database session.
+    :rtype: AsyncIterator[AsyncSession]
+    """
+    session = session_manager.get_session()
+    if session is None:
+        raise DatabaseException(
+            "PgsqlDbSessionManager is not initialized correctly...")
+    try:
+        yield session
+    except Exception:
+        await session.rollback()
+        raise
+    finally:
+        await session.close()
