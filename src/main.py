@@ -11,11 +11,14 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Depends
 from psycopg_pool import AsyncConnectionPool
+from starlette.middleware.cors import CORSMiddleware
 
 from api.api_v1 import api_v1_router
 from core.custom_exceptions import AuthException, BadRequestException, \
     ConflictException, DatabaseException, InternalServerException, \
     NotFoundException, ValidationException, HTTPException
+from core.logger_config import init_logger
+from middlewares.logger import LoggerMiddleware
 from src.core import config
 from src.core.auth import get_api_key
 from src.core.config import get_settings
@@ -25,7 +28,12 @@ from src.core.exception_handlers import auth_exception_handler, \
     internal_server_exception_handler, not_found_exception_handler, \
     validation_exception_handler
 from src.db.connectors.postgres_db import PgsqlDbSessionManager
-from src.middlewares.logger import LoggerMiddleware
+
+# Initialize settings from environment configuration
+settings = get_settings()
+
+# Initialize the loggers
+logger = init_logger(settings.console_logger_name)
 
 
 @asynccontextmanager
@@ -33,21 +41,34 @@ async def app_lifespan(app_instance: FastAPI):
     """
     Lifespan context manager for the FastAPI application instance.
     """
+    logger.info("Application lifespan started...")
+
+    # Initialize the application settings
+    logger.info("Initializing the FastAPI application...")
     app_instance.settings = config.get_settings()
 
     # Initialize the database connector instances
+    logger.info("Initializing the database session managers...")
     postgres_connector = PgsqlDbSessionManager()
     # sqlite_connector = SQLiteConnector()
 
     # Initialize the database connection pool
+    logger.info("Initializing the async database connection pool...")
     app_instance.async_pool = AsyncConnectionPool(
         conninfo=postgres_connector.get_db_connection_str()
     )
 
+    logger.info("Application lifespan startup complete.")
+
     yield  # Pause for code to run here (API runtime)
 
+    logger.info("Shutting down the FastAPI application...")
+
     # Close the database connection pool
+    logger.info("Closing the database session managers...")
     await app_instance.async_pool.close()
+
+    logger.info("Application shutdown complete")
 
 
 # Create FastAPI instance with lifespan context manager
@@ -63,9 +84,6 @@ app = FastAPI(
 # CORS origins allowed
 origins = ["*"]
 
-# Initialize settings from environment configuration
-settings = get_settings()
-
 # Exception handlers
 app.add_exception_handler(AuthException, auth_exception_handler)
 app.add_exception_handler(BadRequestException, bab_request_exception_handler)
@@ -79,6 +97,13 @@ app.add_exception_handler(HTTPException, http_exception_handler)
 
 # Middleware
 app.add_middleware(LoggerMiddleware)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Include routers
 app.include_router(
@@ -98,4 +123,5 @@ if __name__ == "__main__":
         host=settings.app_host,
         port=settings.app_port,
         reload=settings.app_reload,
+        log_config=uvicorn.config.LOGGING_CONFIG
     )
