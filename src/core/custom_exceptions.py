@@ -9,6 +9,13 @@ This module defines custom exception classes used throughout the application.
 Each exception class inherits from the base `Exception` class and includes
 additional attributes and methods to provide more context and functionality.
 """
+import logging
+
+from src.core.config import get_settings
+
+settings = get_settings()
+logger = logging.getLogger(
+    settings.console_logger_name or "application_logger")
 
 
 class BaseCustomException(Exception):
@@ -60,6 +67,7 @@ class AuthException(BaseCustomException):
     """
 
     def __init__(self, message: str):
+        self.detail = message
         super().__init__(message, 401, 'Unauthorized')
 
 
@@ -69,6 +77,7 @@ class BadRequestException(BaseCustomException):
     """
 
     def __init__(self, message: str):
+        self.detail = message
         super().__init__(message, 400, 'BadRequest')
 
 
@@ -78,6 +87,7 @@ class ConflictException(BaseCustomException):
     """
 
     def __init__(self, message: str):
+        self.detail = message
         super().__init__(message, 409, 'Conflict')
 
 
@@ -87,6 +97,7 @@ class DatabaseException(BaseCustomException):
     """
 
     def __init__(self, message: str):
+        self.detail = message
         super().__init__(message, 500, 'DatabaseException')
 
 
@@ -96,6 +107,7 @@ class HTTPException(BaseCustomException):
     """
 
     def __init__(self, message: str):
+        self.detail = message
         super().__init__(message, 500, 'HTTPException')
 
 
@@ -105,6 +117,7 @@ class InternalServerException(BaseCustomException):
     """
 
     def __init__(self, message: str):
+        self.detail = message
         super().__init__(message, 500, 'InternalServer')
 
 
@@ -114,6 +127,7 @@ class NotFoundException(BaseCustomException):
     """
 
     def __init__(self, message: str):
+        self.detail = message
         super().__init__(message, 404, 'NotFound')
 
 
@@ -123,4 +137,5 @@ class ValidationException(BaseCustomException):
     """
 
     def __init__(self, message: str):
+        self.detail = message
         super().__init__(message, 422, 'ValidationException')
