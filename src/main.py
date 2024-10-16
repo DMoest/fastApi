@@ -9,25 +9,24 @@ This module is the main entry point of the FastAPI application.
 import os
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI
 from psycopg_pool import AsyncConnectionPool
 from starlette.middleware.cors import CORSMiddleware
 
-from api.api_v1 import api_v1_router
-from core.custom_exceptions import AuthException, BadRequestException, \
+from src.api.api_v1 import api_v1_router
+from src.core import config
+from src.core.config import get_settings
+from src.core.custom_exceptions import AuthException, BadRequestException, \
     ConflictException, DatabaseException, InternalServerException, \
     NotFoundException, ValidationException, HTTPException
-from core.logger_config import init_logger
-from middlewares.logger import LoggerMiddleware
-from src.core import config
-from src.core.auth import get_api_key
-from src.core.config import get_settings
 from src.core.exception_handlers import auth_exception_handler, \
     bab_request_exception_handler, conflict_exception_handler, \
     database_exception_handler, http_exception_handler, \
     internal_server_exception_handler, not_found_exception_handler, \
     validation_exception_handler
+from src.core.logger_config import init_logger
 from src.db.connectors.postgres_db import PgsqlDbSessionManager
+from src.middlewares.logger import LoggerMiddleware
 
 # Initialize settings from environment configuration
 settings = get_settings()
