@@ -6,6 +6,8 @@
 Defines the User API routes for the FastAPI application.
 """
 
+import logging
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import ORJSONResponse
 from sqlalchemy import select
@@ -13,13 +15,22 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette.responses import Response
 
-from core.custom_exceptions import ConflictException, InternalServerException, \
-    NotFoundException
-from db.connectors.postgres_db import get_db
-from db.models.v1_models.users_model import UserModel
-from db.schemas.v1_schemas.user_schemas import UserCreate, UserOutput
+from src.core.config import get_settings
+from src.core.custom_exceptions import ConflictException, \
+    InternalServerException, NotFoundException
+from src.db.connectors.postgres_db import get_db
+from src.db.models.v1_models.users_model import UserModel
+from src.db.schemas.v1_schemas.user_schemas import UserCreate, UserOutput
 
+# Initialize the API router
 router = APIRouter()
+
+# Initialize settings from environment configuration
+settings = get_settings()
+
+# Initialize the logger
+logger = logging.getLogger(
+    settings.console_logger_name or "application_logger")
 
 
 @router.options("")
