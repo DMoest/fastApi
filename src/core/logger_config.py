@@ -1,16 +1,18 @@
 # !/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+
 """
 This module contains the logger configuration for the FastAPI application.
 """
+
 import datetime
 import logging.config
 import os
 
 import uvicorn
 
-from core.config import get_settings
+from src.core.config import get_settings
 
 
 def init_logger(input_logger_name: str = None) -> logging.Logger:
