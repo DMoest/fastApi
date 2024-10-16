@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+
 """
 SQLite Database configuration module for the FastAPI application.
 
@@ -11,7 +12,7 @@ database connection using SQLAlchemy's asynchronous engine and session maker.
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine, \
     AsyncSession
 
-from core.config import get_settings
+from src.core.config import get_settings
 
 
 class SQLiteConnector:
