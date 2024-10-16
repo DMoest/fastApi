@@ -29,54 +29,70 @@ RUN apt-get update && \
     curl \
     tree
 
-# Step 4 - Install poetry
+# Step 4 - Upgrade pip in the builder image
+RUN pip install --upgrade pip
+
+# Step 5 - Install poetry
 RUN pip install poetry==1.8.3
 
-# Step 5 - Set the poetry environment variables
+# Step 6 - Set the poetry environment variables
 ENV POETRY_NO_INTERACTION=1 \
     POETRY_VIRTUALENVS_IN_PROJECT=1 \
     POETRY_VIRTUALENVS_CREATE=1 \
     POETRY_CACHE_DIR=/tmp/poetry_cache
 
-# Step 6 - Set the working directory
-WORKDIR /app
+# Step 7 - Set the working directory
+WORKDIR /src
 
-# Step 7 - Copy the poetry files and install the dependencies
+# Step 8 - Copy the poetry files and install the dependencies
 COPY pyproject.toml poetry.lock ./
 
-# Step 8 - Add a README file to avoid poetry complaints
+# Step 9 - Add a README file to avoid poetry complaints
 RUN touch README.md
 
-# Step 9 - Install the dependencies with poetry, and remove the poetry cache
-RUN if [ -z "$(ls -A /app)" ]; then echo "App directory is empty"; exit 1; fi
-
 # Step 10 - Install the dependencies with poetry, and remove the poetry cache
+RUN if [ -z "$(ls -A /src)" ]; then echo "SRC directory is empty"; exit 1; fi
+
+# Step 11 - Install the dependencies with poetry, and remove the poetry cache
 RUN poetry install --without dev --no-root && rm -rf $POETRY_CACHE_DIR
 
 
 
 # --- The Runtime Image ------------------------------------------------------
-# Step 11 - The runtime image, used to just run the code provided its virtual environment
+# Step 12 - The runtime image, used to just run the code provided its
+# virtual environment
 FROM python:3.11-slim-buster as runtime
 
-# Step 12 - Set the author label
-ENV VIRTUAL_ENV=/app/.venv \
-    PATH="/app/.venv/bin:$PATH"
+# Step 13 - Set the virtual environment environment variables
+ENV VIRTUAL_ENV=/src/.venv \
+    PATH="/src/.venv/bin:$PATH"
 
-# Step 13 - Copy the virtual environment from the builder image
+# Step 14 - Upgrade pip in the runtime image
+RUN pip install --upgrade pip
+
+# Step 14 - Install poetry in the runtime image
+RUN pip install poetry==1.8.3
+
+# Step 15 - Copy the virtual environment from the builder image
 COPY --from=builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
 
-# Step 14 - Copy the application code
+# Step 16 - Copy the .env file
+COPY .env .env
+
+# Step 17 - Ensure the pyproject.toml file is copied to the runtime image
+COPY pyproject.toml poetry.lock ./
+
+# Step 18 - Copy the application code
 COPY src ./src
 
-# Step 15 - Set the working directory
-WORKDIR /src
+# Step 20 - Set the working directory
+WORKDIR /
 
-# Step 16 - Expose the FastAPI port
+# Step 21 - Expose the FastAPI port
 EXPOSE 1337
 
-# Step 17 - Set the entrypoint
-ENTRYPOINT ["fastapi"]
+# Step 22 - Set the entrypoint
+ENTRYPOINT ["poetry", "run", "uvicorn"]
 
-# Step 18 - Add the command arguments
-CMD ["dev", "--host", "0.0.0.0", "--port", "1337"]
+# Step 23 - Add the command arguments
+CMD ["src.main:app", "--reload", "--host", "0.0.0.0", "--port", "1337"]
