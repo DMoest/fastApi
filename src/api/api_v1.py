@@ -11,14 +11,13 @@ is included in the main FastAPI application instance in the src/main.py
 module.
 """
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
 
-from api.v1_routes import user_routes
-from core.auth import get_api_key
+from src.api.v1_routes import user_routes
 
 api_v1_router = APIRouter(
     prefix="/api/v1",
-    dependencies=[Depends(get_api_key)],
+    # dependencies=[Depends(get_api_key)],
     responses={
         404: {"description": "Not found"}
     },
