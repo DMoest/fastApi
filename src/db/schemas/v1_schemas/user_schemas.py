@@ -23,7 +23,7 @@ class UserCreate(BaseModel):
     id: Optional[str] = Field(default_factory=generate_nano_id)
     username: str
     email: str
-    hashed_password: str
+    password: str
     first_name: str
     last_name: str
     phone_number: str
@@ -38,14 +38,15 @@ class UserCreate(BaseModel):
     is_superuser: bool = False
 
     # Timestamps
-    created_at: datetime = datetime.utcnow()
-    updated_at: datetime = datetime.utcnow()
+    created_at: Optional[datetime] = datetime.utcnow()
+    updated_at: Optional[datetime] = datetime.utcnow()
     deleted_at: Optional[datetime] = None
 
     @field_serializer('created_at', 'updated_at', 'deleted_at')
-    def serialize_datetime(self, value: Optional[datetime]) -> Optional[float]:
-        """ Serialize datetime to timestamp """
-        return value.timestamp() if value else None
+    def serialize_datetime(self, value: Optional[datetime]) -> \
+            Optional[datetime]:
+        """ Serialize datetime to UTC datetime """
+        return value if value else None
 
     model_config = ConfigDict(
         from_attributes=True,
@@ -63,7 +64,7 @@ class UserUpdate(BaseModel):
     id: Optional[str]
     username: Optional[str]
     email: Optional[str]
-    hashed_password: Optional[str]
+    password: Optional[str]
     first_name: Optional[str]
     last_name: Optional[str]
     phone_number: Optional[str]
@@ -82,9 +83,10 @@ class UserUpdate(BaseModel):
     deleted_at: Optional[datetime]
 
     @field_serializer('updated_at', 'deleted_at')
-    def serialize_datetime(self, value: Optional[datetime]) -> Optional[float]:
-        """ Serialize datetime to timestamp """
-        return value.timestamp() if value else None
+    def serialize_datetime(self, value: Optional[datetime]) -> \
+            Optional[datetime]:
+        """ Serialize datetime to UTC datetime """
+        return value if value else None
 
 
 class UserSimple(BaseModel):
@@ -113,7 +115,7 @@ class UserOutput(UserCreate):
     id: str
     username: str
     email: Optional[str]
-    hashed_password: Optional[str]
+    password: Optional[str]
     first_name: Optional[str]
     last_name: Optional[str]
     phone_number: Optional[str]
