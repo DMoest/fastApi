@@ -8,8 +8,8 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 from starlette.responses import Response
 
-from core.config import get_settings
-from core.logger_config import init_logger
+from src.core.config import get_settings
+from src.core.logger_config import init_logger
 
 
 class LoggerMiddleware(BaseHTTPMiddleware):
