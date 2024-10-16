@@ -173,6 +173,11 @@ poetry-add-requirements-txt:  # Add the requirements file
 	@read -p "Enter the requirements file path to add: " requirements_file; \
 	poetry add cat(requirements.txt)
 
+pytest:  # Run the pytest
+	poetry run pytest -v
+
+pylint:  # Run the pylint on the src directory
+	poetry run pylint src
 
 
 # --- FastAPI UVICORN Commands -----------------------------------------------
