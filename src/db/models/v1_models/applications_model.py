@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+
 """
 Application model for the database
 """
 
 from datetime import datetime
+
 from sqlalchemy import Column, String, Boolean, DateTime
 from sqlalchemy.orm import Mapped
 
