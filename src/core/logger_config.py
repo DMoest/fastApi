@@ -44,11 +44,13 @@ def init_logger(input_logger_name: str = None) -> logging.Logger:
             },
             'uvicorn_access': {
                 '()': uvicorn.logging.AccessFormatter,
-                'fmt': '%(levelprefix)s %(asctime)s | %(client_addr)s - "%(request_line)s" %(status_code)s',
+                'fmt': '%(levelprefix)s %(asctime)s | %(client_addr)s - '
+                       '"%(request_line)s" %(status_code)s',
                 'datefmt': '%Y-%m-%d %H:%M:%S',
             },
             'default': {
-                'format': '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                'format': '%(asctime)s - %(name)s - '
+                          '%(levelname)s - %(message)s',
                 'datefmt': '%Y-%m-%d %H:%M:%S',
             }
         },
