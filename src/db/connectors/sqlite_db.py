@@ -20,14 +20,18 @@ class SQLiteConnector:
     A class to manage the SQLite database connection for a FastAPI application.
 
     This class encapsulates the configuration and management of the SQLite
-    database connection using SQLAlchemy's asynchronous engine and session maker.
+    database connection using SQLAlchemy's asynchronous engine and session
+    maker.
 
     :ivar DATABASE_URL: The database URL for connecting to SQLite.
     :vartype DATABASE_URL: str
     :ivar sqlite_engine: The SQLAlchemy asynchronous engine for the database.
     :vartype sqlite_engine: AsyncEngine
-    :ivar AsyncSessionLocal: The SQLAlchemy session maker for creating async sessions.
-    :vartype AsyncSessionLocal: async_sessionmaker
+    :ivar async_session_local: The SQLAlchemy session maker
+    for
+    creating
+        async sessions.
+    :vartype async_session_local: async_sessionmaker
 
     Methods
     -------
@@ -42,8 +46,8 @@ class SQLiteConnector:
         """
         Initialize the SQLiteConnector instance.
 
-        This method sets up the database URL, creates an asynchronous database engine,
-        and initializes the asynchronous session maker.
+        This method sets up the database URL, creates an asynchronous
+        database engine, and initializes the asynchronous session maker.
 
         :param db_path: The file path to the SQLite database.
         :type db_path: str
@@ -52,7 +56,7 @@ class SQLiteConnector:
         settings = get_settings()
 
         if db_path is None:
-            self._database_url = settings.sqlite_db_url.replace(
+            self._database_url = str(settings.sqlite_db_url).replace(
                 "sqlite://",
                 "sqlite+aiosqlite://")
         else:
@@ -61,7 +65,7 @@ class SQLiteConnector:
                 "sqlite+aiosqlite://")
 
         self.sqlite_engine = create_async_engine(self._database_url)
-        self.AsyncSessionLocal = async_sessionmaker(
+        self.async_session_local = async_sessionmaker(
             autocommit=False,
             autoflush=False,
             bind=self.sqlite_engine,
@@ -73,12 +77,13 @@ class SQLiteConnector:
         """
         Method to get a database session.
 
-        This method does not take any parameters and returns a database session.
+        This method does not take any parameters and returns a database
+        session.
 
         :return: A database session.
         :rtype: AsyncSession
         """
-        async with self.AsyncSessionLocal() as db:
+        async with self.async_session_local() as db:
             try:
                 yield db
             finally:
