@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+    fastapi_server:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        environment:
+            - APP_PORT=${APP_PORT}
+            - PG_DB_HOST=${PG_DB_HOST}
+            - PG_DB_PORT=${PG_DB_PORT}
+            - PG_DB_USERNAME=${PG_DB_USERNAME}
+            - PG_DB_PASSWORD=${PG_DB_PASSWORD}
+            - PG_DB_NAME=${PG_DB_NAME}
+        healthcheck:
+            test: [ "CMD", "curl", "-f", "http://localhost:1337/health" ]
+            interval: 1s
+            timeout: 5s
+            retries: 3
+        ports:
+            - "${APP_PORT}:${APP_PORT}"
+            - "${PG_DB_PORT}:${PG_DB_PORT}"
+        networks:
+            - skynet
+        depends_on:
+            postgres_db:
+                condition: service_healthy
+        restart: always
+
+    postgres_db:
+        image: postgres:14
+        environment:
+            POSTGRES_USER: ${PG_DB_USERNAME}
+            POSTGRES_PASSWORD: ${PG_DB_PASSWORD}
+            POSTGRES_DB: ${PG_DB_NAME}
+        healthcheck:
+            test: [ "CMD-SHELL", "pg_isready -U ${PG_DB_USERNAME}" ]
+            interval: 1s
+            timeout: 5s
+            retries: 3
+        ports:
+            - "${PG_DB_PORT}:${PG_DB_PORT}"
+        networks:
+            - skynet
+        volumes:
+            - pg_data:/var/lib/postgresql/data
+        restart: always
+
+networks:
+    skynet:
+        driver: bridge
+
+volumes:
+    pg_data:
+        driver: local
