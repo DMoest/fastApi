@@ -1,3 +1,5 @@
+![Workflow Status](https://github.com/DMoest/fastApi/actions/workflows/install_and_test_application.yml/badge.svg)
+
 # FastAPI application backend
 
 This is a FastAPI application backend that serves as a backend for a simple web

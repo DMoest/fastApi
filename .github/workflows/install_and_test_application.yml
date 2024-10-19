@@ -24,7 +24,7 @@ jobs:
               with:
                 python-version: ${{ matrix.python-version }}
 
-            - name: Set up Python ${{ matrix.python-version }}
+            - name: Setup Python ${{ matrix.python-version }}
               uses: actions/setup-python@v4
               with:
                 python-version: ${{ matrix.python-version }}
@@ -32,13 +32,13 @@ jobs:
             - name: Run image
               uses: abatilo/actions-poetry@v2
               with:
-                  poetry-version: ${{ matrix.poetry-version }}
+                poetry-version: ${{ matrix.poetry-version }}
 
-            - name: Install dependencies
+            - name: Install python dependencies with poetry
               run: poetry install
 
-            - name: Lint application codebase
+            - name: Lint application codebase with pylint
               run: poetry run pylint --verbose src
 
-            - name: Test application
+            - name: Test application with pytest
               run: poetry run pytest --verbose
