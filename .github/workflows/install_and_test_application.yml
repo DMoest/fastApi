@@ -48,3 +48,4 @@ jobs:
 
             - name: Test application
               run: make pytest
+
