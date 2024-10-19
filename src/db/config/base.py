@@ -15,10 +15,11 @@ Each class includes a detailed docstring with information about its purpose.
 
 """
 from sqlalchemy.orm import DeclarativeBase, mapped_column, Mapped
+
 from src.utils.nano_id import generate_nano_id
 
 
-class Base(DeclarativeBase):
+class Base(DeclarativeBase):  # pylint: disable=too-few-public-methods
     """Base database model."""
     id: Mapped[str] = mapped_column(
         primary_key=True,
