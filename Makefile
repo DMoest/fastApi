@@ -1,78 +1,92 @@
 #!/usr/bin/make -f
 
-.PHONY: help poetry-version poetry-config-list poetry-install \
-poetry-install-all-extras poetry-install-extras poetry-install-with \
-poetry-install-no-root poetry-install-only-root poetry-install-only \
-poetry-install-without poetry-install-sync poetry-lock poetry-lock-update \
-poetry-lock-no-update poetry-update poetry-update-dry-run poetry-env-list \
-poetry-env-info-path poetry-env-remove-all poetry-add-package \
-poetry-remove-package poetry-pip-freeze poetry-pip-freeze-to-txt-file \
-poetry-add-requirements-txt poetry-add-group poetry-remove-group \
-poetry-remove-lock-file poetry-show-latest-top-level \
-poetry-export-to-requirements pytest pylint-all pylint-on-path \
-uvicorn-run-app-on-port uvicorn-run alembic-init alembic-init-template \
-alembic-revision alembic-revision-and-upgrade alembic-upgrade \
-alembic-downgrade alembic-show-history alembic-show-current \
-alembic-show-heads alembic-show-branches alembic-list-templates \
-alembic-show-revision-details alembic-help docker-build docker-run \
-docker-stop docker-remove
+.PHONY: alembic-downgrade alembic-help alembic-init alembic-init-template \
+alembic-list-templates alembic-revision alembic-revision-and-upgrade \
+alembic-show-branches alembic-show-current alembic-show-heads \
+alembic-show-history alembic-show-revision-details alembic-upgrade \
+docker-build docker-remove docker-run docker-stop help poetry-add-group \
+poetry-add-package poetry-add-requirements-txt poetry-config-list \
+poetry-env-info-path poetry-env-list poetry-env-remove-all \
+poetry-export-to-requirements poetry-install poetry-install-all-extras \
+poetry-install-extras poetry-install-no-root poetry-install-only \
+poetry-install-only-root poetry-install-sync poetry-install-with \
+poetry-install-without poetry-lock poetry-lock-no-update poetry-lock-update \
+poetry-pip-freeze poetry-pip-freeze-to-txt-file poetry-remove-group \
+poetry-remove-lock-file poetry-remove-package poetry-show-latest-top-level \
+poetry-update poetry-update-dry-run poetry-version pylint-app \
+pylint-path pytest uvicorn-run uvicorn-run-app-on-port
 
 
 
 help:  # Show the available commands
-	@echo "Available commands:"
-	@echo "  poetry-version"
+	@echo "\nAvailable MAKE commands:"
+	@echo "========================"
+
+	@echo "\nAlembic commands:"
+	@echo "  alembic-downgrade"
+	@echo "  alembic-help"
+	@echo "  alembic-init"
+	@echo "  alembic-init-template"
+	@echo "  alembic-list-templates"
+	@echo "  alembic-revision"
+	@echo "  alembic-revision-and-upgrade"
+	@echo "  alembic-show-branches"
+	@echo "  alembic-show-current"
+	@echo "  alembic-show-heads"
+	@echo "  alembic-show-history"
+	@echo "  alembic-show-revision-details"
+	@echo "  alembic-upgrade"
+
+	@echo "\nDocker commands:"
+	@echo "  docker-build"
+	@echo "  docker-remove"
+	@echo "  docker-run"
+	@echo "  docker-stop"
+
+	@echo "\nGeneral commands:"
+	@echo "  help"
+
+	@echo "\nPoetry commands:"
+	@echo "  poetry-add-group"
+	@echo "  poetry-add-package"
+	@echo "  poetry-add-requirements-txt"
 	@echo "  poetry-config-list"
+	@echo "  poetry-env-info-path"
+	@echo "  poetry-env-list"
+	@echo "  poetry-env-remove-all"
+	@echo "  poetry-export-to-requirements"
 	@echo "  poetry-install"
 	@echo "  poetry-install-all-extras"
 	@echo "  poetry-install-extras"
-	@echo "  poetry-install-with"
 	@echo "  poetry-install-no-root"
-	@echo "  poetry-install-only-root"
 	@echo "  poetry-install-only"
-	@echo "  poetry-install-without"
+	@echo "  poetry-install-only-root"
 	@echo "  poetry-install-sync"
+	@echo "  poetry-install-with"
+	@echo "  poetry-install-without"
 	@echo "  poetry-lock"
-	@echo "  poetry-lock-update"
 	@echo "  poetry-lock-no-update"
-	@echo "  poetry-update"
-	@echo "  poetry-update-dry-run"
-	@echo "  poetry-env-list"
-	@echo "  poetry-env-info-path"
-	@echo "  poetry-env-remove-all"
-	@echo "  poetry-add-package"
-	@echo "  poetry-remove-package"
+	@echo "  poetry-lock-update"
 	@echo "  poetry-pip-freeze"
 	@echo "  poetry-pip-freeze-to-txt-file"
-	@echo "  poetry-add-requirements-txt"
-	@echo "  poetry-add-group"
 	@echo "  poetry-remove-group"
 	@echo "  poetry-remove-lock-file"
+	@echo "  poetry-remove-package"
 	@echo "  poetry-show-latest-top-level"
-	@echo "  poetry-export-to-requirements"
-	@echo "  pytest"
-	@echo "  pylint-all"
-	@echo "  pylint-on-path"
-	@echo "  uvicorn-run-app-on-port"
-	@echo "  uvicorn-run"
-	@echo "  alembic-init"
-	@echo "  alembic-init-template"
-	@echo "  alembic-revision"
-	@echo "  alembic-revision-and-upgrade"
-	@echo "  alembic-upgrade"
-	@echo "  alembic-downgrade"
-	@echo "  alembic-show-history"
-	@echo "  alembic-show-current"
-	@echo "  alembic-show-heads"
-	@echo "  alembic-show-branches"
-	@echo "  alembic-list-templates"
-	@echo "  alembic-show-revision-details"
-	@echo "  alembic-help"
-	@echo "  docker-build"
-	@echo "  docker-run"
-	@echo "  docker-stop"
-	@echo "  docker-remove"
+	@echo "  poetry-update"
+	@echo "  poetry-update-dry-run"
+	@echo "  poetry-version"
 
+	@echo "\nPylint commands:"
+	@echo "  pylint-app"
+	@echo "  pylint-path"
+
+	@echo "\nPytest commands:"
+	@echo "  pytest"
+
+	@echo "\nUvicorn commands:"
+	@echo "  uvicorn-run"
+	@echo "  uvicorn-run-app-on-port"
 
 
 # --- POETRY COMMANDS --------------------------------------------------------
@@ -81,6 +95,9 @@ poetry-version:  # Show poetry version
 
 poetry-config-list:  # List all the configuration settings
 	poetry config --list
+
+poetry-shell:  # Start the virtual environment shell
+	poetry shell
 
 # poetry install commands
 poetry-install:  # Install the dependencies
@@ -178,14 +195,15 @@ poetry-add-requirements-txt:  # Add the requirements file
 	poetry add cat(requirements.txt)
 
 pytest:  # Run the pytest
-	poetry run pytest -v
+	poetry run pytest --verbose
 
-pylint-all:  # Run the pylint on the src directory
+pylint-app:  # Run the pylint on the src directory
 	poetry run pylint --verbose src
 
-pylint-on-path:  # Run the pylint on the path
+pylint-path:  # Run the pylint on the path
 	@read -p "Enter the path to run the pylint: " path; \
 	poetry run pylint --verbose $$path
+
 
 # --- FastAPI UVICORN Commands -----------------------------------------------
 uvicorn-run:  # Run the FastAPI app using Uvicorn
@@ -194,7 +212,6 @@ uvicorn-run:  # Run the FastAPI app using Uvicorn
 uvicorn-run-app-on-port:  # Run the command in the virtual environment
 	@read -p "Enter the PORT you like the application to run on: " port; \
 	poetry run uvicorn src.main:app --reload --port $$port
-
 
 
 # --- Alembic Commands -------------------------------------------------------
@@ -246,7 +263,6 @@ alembic-show-revision-details:  # Show the Alembic configuration
 
 alembic-help:  # Show the Alembic help
 	poetry run alembic --help
-
 
 
 # --- Docker Commands ----------------------------------------------------------
