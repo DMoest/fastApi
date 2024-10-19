@@ -12,7 +12,7 @@ database connection using SQLAlchemy's asynchronous engine and session maker.
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine, \
     AsyncSession
 
-from src.core.config_env import get_settings
+from src.core.env_config import get_settings
 
 
 class SQLiteConnector:

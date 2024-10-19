@@ -15,9 +15,9 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette.responses import Response
 
-from src.core.config_env import get_settings
 from src.core.custom_exceptions import ConflictException, \
     InternalServerException, NotFoundException
+from src.core.env_config import get_settings
 from src.db.connectors.postgres_db import get_db
 from src.db.models.v1_models.users_model import UserModel
 from src.db.schemas.v1_schemas.user_schemas import UserCreate, UserOutput

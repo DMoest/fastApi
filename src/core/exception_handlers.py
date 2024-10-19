@@ -11,10 +11,10 @@ import logging
 from fastapi import Request, HTTPException
 from fastapi.responses import ORJSONResponse
 
-from src.core.config_env import get_settings
 from src.core.custom_exceptions import AuthException, BadRequestException, \
     ConflictException, DatabaseException, InternalServerException, \
     NotFoundException, ValidationException
+from src.core.env_config import get_settings
 
 settings = get_settings()
 logger = logging.getLogger(

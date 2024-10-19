@@ -12,7 +12,7 @@ import os
 
 import uvicorn
 
-from src.core.config_env import get_settings
+from src.core.env_config import get_settings
 
 
 def init_logger(input_logger_name: str = None) -> logging.Logger:
