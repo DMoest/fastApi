@@ -38,11 +38,10 @@ jobs:
               run: make poetry-shell
 
             - name: Install dependencies
-              run: make poetry-install
+              run: poetry install
 
             - name: Lint application codebase
-              run: make pylint
+              run: poetry run make pylint
 
             - name: Test application
-              run: make pytest
-
+              run: poetry run make pytest
