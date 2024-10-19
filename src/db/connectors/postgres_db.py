@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+
 """
 Postgres Database configuration module for the FastAPI application.
 
-This module contains the `PostgresConnector` class, which manages the PostgreSQL
-database connection using SQLAlchemy's asynchronous engine and session maker.
+This module contains the `PostgresConnector` class, which manages the
+PostgreSQL database connection using SQLAlchemy's asynchronous engine and
+session maker.
 """
 
 from asyncio import current_task
