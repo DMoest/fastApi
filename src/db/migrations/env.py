@@ -1,14 +1,21 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+
+"""
+Alembic environment configuration file.
+"""
+
 import os
 from logging.config import fileConfig
-from sqlalchemy import engine_from_config, pool
+
 from alembic import context
-from src.db.config.base import Base  # Import your Base
-from src.core.config import get_settings  # Import your settings
 from dotenv import load_dotenv
+from sqlalchemy import engine_from_config, pool
+
+from src.db.config.base import Base  # Import your Base
 
 # Import all db models here...
-from src.db.models.v1_models.users_model import UserModel
-from src.db.models.v1_models.applications_model import ApplicationModel
 
 # Load environment variables from .env file
 load_dotenv()
