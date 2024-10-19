@@ -30,7 +30,7 @@ settings = get_settings()
 
 # Initialize the logger
 logger = logging.getLogger(
-    settings.console_logger_name or "application_logger")
+    settings.app_logger_name or "application_logger")
 
 
 @router.options("")
@@ -64,10 +64,10 @@ async def create_user(
     except IntegrityError as e:
         await db.rollback()
         raise ConflictException(message="User with given details already "
-                                        "exists")
+                                        "exists") from e
     except Exception as e:
         await db.rollback()
-        raise InternalServerException(message="Internal Server Error")
+        raise InternalServerException(message="Internal Server Error") from e
 
 
 @router.get("", response_class=ORJSONResponse)
@@ -96,9 +96,9 @@ async def get_all_users(
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=str(e)
-        )
+        ) from e
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Internal Server Error"
-        )
+        ) from e
