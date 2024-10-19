@@ -18,7 +18,7 @@ from src.core.custom_exceptions import AuthException, BadRequestException, \
 
 settings = get_settings()
 logger = logging.getLogger(
-    settings.console_logger_name or "application_logger")
+    settings.app_logger_name or "application_logger")
 
 
 async def auth_exception_handler(request: Request,

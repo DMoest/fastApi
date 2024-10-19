@@ -27,7 +27,7 @@ class LoggerMiddleware(BaseHTTPMiddleware):
         settings = get_settings()
 
         super().__init__(app)
-        self.logger = init_logger(settings.console_logger_name)
+        self.logger = init_logger(settings.app_logger_name)
 
     async def dispatch(self, request: Request, call_next) -> Response:
         """

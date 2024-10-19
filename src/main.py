@@ -32,7 +32,7 @@ from src.middlewares.logger import LoggerMiddleware
 settings = get_settings()
 
 # Initialize the loggers
-logger = init_logger(settings.console_logger_name)
+logger = init_logger(settings.app_logger_name)
 
 
 @asynccontextmanager

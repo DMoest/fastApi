@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+
 """
 This module contains the configuration settings for the FastAPI application.
 """
@@ -40,6 +41,9 @@ class Settings(BaseSettings):
     app_reload: bool = Field(
         default=True,
         json_schema_extra={"env_name": "APP_RELOAD"})
+    app_logger_name: str = Field(
+        default="application_logger",
+        json_schema_extra={"env_name": "LOGGER_NAME"})
 
     # --- Secret Keys (JWT) --------------------------------------------------
     app_algorithm: str = Field(
@@ -49,14 +53,7 @@ class Settings(BaseSettings):
         default="a_secret_key",
         json_schema_extra={"env_name": "APP_JWT_SECRET_KEY"})
 
-    app_logger_name: str = Field(
-        default="fastapi_logger",
-        json_schema_extra={"env_name": "LOGGER_NAME"})
-
-    # --- Console Logger settings -------------------------------------------
-    console_logger_name: str = Field(
-        default="console_logger",
-        json_schema_extra={"env_name": "CONSOLE_LOGGER_NAME"})
+    # --- Console Logger settings --------------------------------------------
     console_logger_level: str = Field(
         default="DEBUG",
         json_schema_extra={"env_name": "CONSOLE_LOGGER_LEVEL"})
@@ -67,10 +64,7 @@ class Settings(BaseSettings):
         default=False,
         json_schema_extra={"env_name": "CONSOLE_LOGGER_PROPAGATE"})
 
-    # --- File Logger settings ----------------------------------------------
-    file_logger_name: str = Field(
-        default="file_logger",
-        json_schema_extra={"env_name": "FILE_LOGGER_NAME"})
+    # --- File Logger settings -----------------------------------------------
     file_logger_level: str = Field(
         default="DEBUG",
         json_schema_extra={"env_name": "FILE_LOGGER_LEVEL"})

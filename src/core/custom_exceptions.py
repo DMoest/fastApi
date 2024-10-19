@@ -15,7 +15,7 @@ from src.core.config import get_settings
 
 settings = get_settings()
 logger = logging.getLogger(
-    settings.console_logger_name or "application_logger")
+    settings.app_logger_name or "application_logger")
 
 
 class BaseCustomException(Exception):
@@ -68,7 +68,8 @@ class AuthException(BaseCustomException):
 
     def __init__(self, message: str):
         self.detail = message
-        super().__init__(message, 401, 'Unauthorized')
+        super().__init__(
+            message, 401, 'UnauthorizedException')
 
 
 class BadRequestException(BaseCustomException):
@@ -78,7 +79,8 @@ class BadRequestException(BaseCustomException):
 
     def __init__(self, message: str):
         self.detail = message
-        super().__init__(message, 400, 'BadRequest')
+        super().__init__(
+            message, 400, 'BadRequestException')
 
 
 class ConflictException(BaseCustomException):
@@ -88,7 +90,8 @@ class ConflictException(BaseCustomException):
 
     def __init__(self, message: str):
         self.detail = message
-        super().__init__(message, 409, 'Conflict')
+        super().__init__(
+            message, 409, 'ConflictException')
 
 
 class DatabaseException(BaseCustomException):
@@ -98,7 +101,8 @@ class DatabaseException(BaseCustomException):
 
     def __init__(self, message: str):
         self.detail = message
-        super().__init__(message, 500, 'DatabaseException')
+        super().__init__(
+            message, 500, 'DatabaseException')
 
 
 class HTTPException(BaseCustomException):
@@ -108,7 +112,8 @@ class HTTPException(BaseCustomException):
 
     def __init__(self, message: str):
         self.detail = message
-        super().__init__(message, 500, 'HTTPException')
+        super().__init__(
+            message, 500, 'HTTPException')
 
 
 class InternalServerException(BaseCustomException):
@@ -118,7 +123,8 @@ class InternalServerException(BaseCustomException):
 
     def __init__(self, message: str):
         self.detail = message
-        super().__init__(message, 500, 'InternalServer')
+        super().__init__(
+            message, 500, 'InternalServerException')
 
 
 class NotFoundException(BaseCustomException):
@@ -128,7 +134,8 @@ class NotFoundException(BaseCustomException):
 
     def __init__(self, message: str):
         self.detail = message
-        super().__init__(message, 404, 'NotFound')
+        super().__init__(
+            message, 404, 'NotFoundException')
 
 
 class ValidationException(BaseCustomException):
@@ -138,4 +145,5 @@ class ValidationException(BaseCustomException):
 
     def __init__(self, message: str):
         self.detail = message
-        super().__init__(message, 422, 'ValidationException')
+        super().__init__(
+            message, 422, 'ValidationException')

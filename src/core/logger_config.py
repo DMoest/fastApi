@@ -22,7 +22,7 @@ def init_logger(input_logger_name: str = None) -> logging.Logger:
 
     # Initialize settings from environment configuration
     settings = get_settings()
-    logger_name = (settings.console_logger_name or input_logger_name
+    logger_name = (settings.app_logger_name or input_logger_name
                    or 'application_logger')
 
     # Define the logging configuration dictionary
