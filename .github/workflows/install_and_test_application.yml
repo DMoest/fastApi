@@ -1,0 +1,44 @@
+# This workflow will run test the application codebase
+name: Install and test application
+
+on:
+    push:
+        branches: [ main, master, stage, test ]
+    pull_request:
+        branches: [ main, master, stage, test ]
+
+    workflow_dispatch:
+
+jobs:
+    run_tests:
+        strategy:
+            fail-fast: false
+            matrix:
+                python-version: [ "3.11.4" ]
+                poetry-version: [ "1.8.3" ]
+                os: [ ubuntu-latest, macos-latest, windows-latest ]
+        runs-on: ${{ matrix.os }}
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-python@v4
+              with:
+                python-version: ${{ matrix.python-version }}
+
+            - name: Set up Python ${{ matrix.python-version }}
+              uses: actions/setup-python@v4
+              with:
+                python-version: ${{ matrix.python-version }}
+
+            - name: Run image
+              uses: abatilo/actions-poetry@v2
+              with:
+                  poetry-version: ${{ matrix.poetry-version }}
+
+            - name: View poetry --help
+              run: poetry --help
+
+            - name: Test application
+              run: make pytest
+
+            - name: Lint application codebase
+              run: make pylint
