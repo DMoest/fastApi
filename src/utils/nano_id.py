@@ -1,3 +1,7 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+
 """
 This module provides a utility function to generate unique Nano IDs using
 the `nanoid` library.
@@ -20,6 +24,7 @@ Example:
 """
 
 import os
+
 from nanoid import generate
 
 
@@ -39,7 +44,7 @@ def generate_nano_id() -> str:
         'NANO_ID_CHARACTERS',
         '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
     )
-    id_size: int = os.getenv('NANO_ID_SIZE', 25)
+    id_size: int = int(os.getenv('NANO_ID_SIZE', '25'))
     new_nano_id: str = generate(id_characters, int(id_size))
 
     return new_nano_id
