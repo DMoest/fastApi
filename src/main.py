@@ -9,10 +9,11 @@ This module is the main entry point of the FastAPI application.
 import os
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from psycopg_pool import AsyncConnectionPool
 from starlette.middleware.cors import CORSMiddleware
 
+from core.auth import get_api_key
 from src.api.api_v1 import api_v1_router
 from src.core.custom_exceptions import AuthException, BadRequestException, \
     ConflictException, DatabaseException, InternalServerException, \
