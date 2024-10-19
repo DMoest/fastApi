@@ -38,7 +38,7 @@ jobs:
               run: poetry install
 
             - name: Lint application codebase
-              run: poetry run make pylint
+              run: poetry run pylint --verbose src
 
             - name: Test application
-              run: poetry run make pytest
+              run: poetry run pytest --verbose
