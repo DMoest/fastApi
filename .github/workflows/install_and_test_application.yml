@@ -34,9 +34,6 @@ jobs:
               with:
                   poetry-version: ${{ matrix.poetry-version }}
 
-            - name: Initialize a new python virtual environment
-              run: make poetry-shell
-
             - name: Install dependencies
               run: poetry install
 
