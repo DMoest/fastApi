@@ -35,13 +35,10 @@ jobs:
                   poetry-version: ${{ matrix.poetry-version }}
 
             - name: Initialize a new python virtual environment
-              uses: abatilo/actions-poetry@v2
-              with:
-                  poetry-version: ${{ matrix.poetry-version }}
-                  command: poetry shell
+              run: make poetry-shell
 
             - name: Install dependencies
-              run: make install
+              run: make poetry-install
 
             - name: Lint application codebase
               run: make pylint
