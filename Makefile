@@ -9,12 +9,13 @@ poetry-env-info-path poetry-env-remove-all poetry-add-package \
 poetry-remove-package poetry-pip-freeze poetry-pip-freeze-to-txt-file \
 poetry-add-requirements-txt poetry-add-group poetry-remove-group \
 poetry-remove-lock-file poetry-show-latest-top-level \
-poetry-export-to-requirements uvicorn-run-app-on-port uvicorn-run \
-alembic-init alembic-init-template alembic-revision \
-alembic-revision-and-upgrade alembic-upgrade alembic-downgrade \
-alembic-show-history alembic-show-current alembic-show-heads \
-alembic-show-branches alembic-list-templates alembic-show-revision-details \
-alembic-help docker-build docker-run docker-stop docker-remove
+poetry-export-to-requirements pytest pylint-all pylint-on-path \
+uvicorn-run-app-on-port uvicorn-run alembic-init alembic-init-template \
+alembic-revision alembic-revision-and-upgrade alembic-upgrade \
+alembic-downgrade alembic-show-history alembic-show-current \
+alembic-show-heads alembic-show-branches alembic-list-templates \
+alembic-show-revision-details alembic-help docker-build docker-run \
+docker-stop docker-remove
 
 
 
@@ -49,6 +50,9 @@ help:  # Show the available commands
 	@echo "  poetry-remove-lock-file"
 	@echo "  poetry-show-latest-top-level"
 	@echo "  poetry-export-to-requirements"
+	@echo "  pytest"
+	@echo "  pylint-all"
+	@echo "  pylint-on-path"
 	@echo "  uvicorn-run-app-on-port"
 	@echo "  uvicorn-run"
 	@echo "  alembic-init"
@@ -176,9 +180,12 @@ poetry-add-requirements-txt:  # Add the requirements file
 pytest:  # Run the pytest
 	poetry run pytest -v
 
-pylint:  # Run the pylint on the src directory
-	poetry run pylint src
+pylint-all:  # Run the pylint on the src directory
+	poetry run pylint --verbose src
 
+pylint-on-path:  # Run the pylint on the path
+	@read -p "Enter the path to run the pylint: " path; \
+	poetry run pylint --verbose $$path
 
 # --- FastAPI UVICORN Commands -----------------------------------------------
 uvicorn-run:  # Run the FastAPI app using Uvicorn
@@ -186,7 +193,7 @@ uvicorn-run:  # Run the FastAPI app using Uvicorn
 
 uvicorn-run-app-on-port:  # Run the command in the virtual environment
 	@read -p "Enter the PORT you like the application to run on: " port; \
-	poetry run uvicorn app.main:app --reload --port $$port
+	poetry run uvicorn src.main:app --reload --port $$port
 
 
 
