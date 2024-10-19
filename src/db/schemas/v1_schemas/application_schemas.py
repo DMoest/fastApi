@@ -10,8 +10,9 @@ from collections import namedtuple
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel, Field, ConfigDict, field_serializer
+from pydantic import BaseModel, Field, field_serializer
 
+from src.db.schemas.schema_config import standard_model_config
 from src.utils.nano_id import generate_nano_id
 
 
@@ -36,13 +37,7 @@ class ApplicationCreate(BaseModel):
         """ Serialize datetime to timestamp """
         return value.timestamp()
 
-    model_config = ConfigDict(
-        from_attributes=True,
-        str_strip_whitespace=True,
-        arbitrary_types_allowed=True,
-        str_min_length=1,
-        str_max_length=255
-    )
+    model_config = standard_model_config
 
 
 class ApplicationUpdate(BaseModel):
@@ -64,13 +59,7 @@ class ApplicationUpdate(BaseModel):
         """ Serialize datetime to timestamp """
         return value.timestamp()
 
-    model_config = ConfigDict(
-        from_attributes=True,
-        str_strip_whitespace=True,
-        arbitrary_types_allowed=True,
-        str_min_length=1,
-        str_max_length=255
-    )
+    model_config = standard_model_config
 
 
 class ApplicationOutput(ApplicationCreate):
