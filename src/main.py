@@ -76,7 +76,7 @@ app = FastAPI(
     version="0.1.0",
     openapi_url="/api/openapi.json",
     lifespan=app_lifespan,
-    debug=os.getenv("APP_DEBUG", False)
+    debug=bool(os.getenv("APP_DEBUG", 'False'))
 )
 
 # CORS origins allowed
