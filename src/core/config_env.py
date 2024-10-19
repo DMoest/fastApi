@@ -92,7 +92,11 @@ class Settings(BaseSettings):
 
     # --- Postgres Database --------------------------------------------------
     pg_db_url: str = Field(
-        default="postgresql://a_postgresql_db_username:a_postgresql_db_password@the_db_host:5432/the_db_name",
+        default="postgresql://"
+                "a_postgresql_db_username:"
+                "a_postgresql_db_password@"
+                "the_db_host:"
+                "5432/the_db_name",
         json_schema_extra={"env_name": "PG_DB_URL"})
     pg_db_name: str = Field(
         default="the_db_name",
@@ -139,7 +143,10 @@ class Settings(BaseSettings):
 
     # --- MongoDB Database ---------------------------------------------------
     mongo_db_url: str = Field(
-        default="mongodb://a_mongodb_db_username:a_mongodb_db_password@the_db_host:27017",
+        default="mongodb://a_mongodb_db_username:"
+                "a_mongodb_db_password@"
+                "the_db_host:"
+                "27017",
         json_schema_extra={"env_name": "MONGO_DB_URL"})
     mongo_db_name: str = Field(
         default="the_mongo_db_name",

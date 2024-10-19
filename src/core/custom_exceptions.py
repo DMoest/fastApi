@@ -11,7 +11,7 @@ additional attributes and methods to provide more context and functionality.
 """
 import logging
 
-from src.core.config import get_settings
+from src.core.config_env import get_settings
 
 settings = get_settings()
 logger = logging.getLogger(

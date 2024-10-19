@@ -15,7 +15,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette.responses import Response
 
-from src.core.config import get_settings
+from src.core.config_env import get_settings
 from src.core.custom_exceptions import ConflictException, \
     InternalServerException, NotFoundException
 from src.db.connectors.postgres_db import get_db

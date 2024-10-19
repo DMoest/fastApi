@@ -14,7 +14,7 @@ from collections.abc import AsyncIterator
 from sqlalchemy.ext.asyncio import async_sessionmaker, async_scoped_session, \
     create_async_engine, AsyncSession
 
-from src.core.config import get_settings
+from src.core.config_env import get_settings
 from src.core.custom_exceptions import DatabaseException
 
 

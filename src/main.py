@@ -14,8 +14,7 @@ from psycopg_pool import AsyncConnectionPool
 from starlette.middleware.cors import CORSMiddleware
 
 from src.api.api_v1 import api_v1_router
-from src.core import config
-from src.core.config import get_settings
+from src.core.config_env import get_settings
 from src.core.custom_exceptions import AuthException, BadRequestException, \
     ConflictException, DatabaseException, InternalServerException, \
     NotFoundException, ValidationException, HTTPException
