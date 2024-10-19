@@ -19,7 +19,7 @@ from src.core.custom_exceptions import AuthException, BadRequestException, \
     NotFoundException, ValidationException, HTTPException
 from src.core.env_config import get_settings
 from src.core.exception_handlers import auth_exception_handler, \
-    bab_request_exception_handler, conflict_exception_handler, \
+    bad_request_exception_handler, conflict_exception_handler, \
     database_exception_handler, http_exception_handler, \
     internal_server_exception_handler, not_found_exception_handler, \
     validation_exception_handler
@@ -43,7 +43,7 @@ async def app_lifespan(app_instance: FastAPI):
 
     # Initialize the application settings
     logger.info("Initializing the FastAPI application...")
-    app_instance.settings = config.get_settings()
+    app_instance.settings = settings
 
     # Initialize the database connector instances
     logger.info("Initializing the database session managers...")
@@ -84,7 +84,7 @@ origins = ["*"]
 
 # Exception handlers
 app.add_exception_handler(AuthException, auth_exception_handler)
-app.add_exception_handler(BadRequestException, bab_request_exception_handler)
+app.add_exception_handler(BadRequestException, bad_request_exception_handler)
 app.add_exception_handler(ConflictException, conflict_exception_handler)
 app.add_exception_handler(DatabaseException, database_exception_handler)
 app.add_exception_handler(InternalServerException,
