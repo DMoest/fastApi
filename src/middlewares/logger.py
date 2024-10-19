@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+
 """
 This module contains the logger configuration for the FastAPI application.
 """
+
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 from starlette.responses import Response
@@ -41,12 +43,30 @@ class LoggerMiddleware(BaseHTTPMiddleware):
         :rtype: Response
         """
         # Log the request
-        self.logger.info("Request: %s %s", request.method, request.url)
+        self.log_request_details(request)
 
         # Call the next middleware
         response = await call_next(request)
 
         # Log the response
-        self.logger.info("Response: %s", response.status_code)
+        self.log_response_details(response)
 
         return response
+
+    def log_request_details(self, request: Request):
+        """
+        Log detailed information about the request
+
+        :param request: Request object
+        :type request: Request
+        """
+        self.logger.info("Request details: %s %s", request.method, request.url)
+
+    def log_response_details(self, response: Response):
+        """
+        Log detailed information about the response
+
+        :param response: Response object
+        :type response: Response
+        """
+        self.logger.info("Response details: %s", response.status_code)
