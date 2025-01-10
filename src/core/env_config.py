@@ -140,6 +140,21 @@ class Settings(BaseSettings):
     pg_db_expire_on_commit: bool = Field(
         default=False,
         json_schema_extra={"env_name": "PG_DB_EXPIRE_ON_COMMIT"})
+    pg_db_volume_path: str = Field(
+        default="/var/lib/postgresql/data",
+        json_schema_extra={"env_name": "PG_DB_VOLUME_PATH"})
+    pg_local_user_id: int = Field(
+        default=1000,
+        json_schema_extra={"env_name": "PG_LOCAL_USER_ID"})
+    pg_local_group_id: int = Field(
+        default=1000,
+        json_schema_extra={"env_name": "PG_LOCAL_GROUP_ID"})
+    pg_db_docker_service_name: str = Field(
+        default="the_db_docker_service_name",
+        json_schema_extra={"env_name": "PG_DB_DOCKER_SERVICE_NAME"})
+    pg_db_docker_data_path: str = Field(
+        default="/var/lib/postgresql/data",
+        json_schema_extra={"env_name": "PG_DB_DOCKER_DATA_PATH"})
 
     # --- MongoDB Database ---------------------------------------------------
     mongo_db_url: str = Field(
