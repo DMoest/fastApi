@@ -63,10 +63,11 @@ async def create_user(
         )
     except IntegrityError as e:
         await db.rollback()
-        raise ConflictException(message="User with given details already "
-                                        "exists") from e
+        raise ConflictException(
+            message="User with given details already exists") from e
     except Exception as e:
         await db.rollback()
+        logger.error("Unexpected error occurred: %s %s", e, exc_info=True)
         raise InternalServerException(message="Internal Server Error") from e
 
 
@@ -93,11 +94,13 @@ async def get_all_users(
 
             raise NotFoundException(message="No users found")
     except NotFoundException as e:
+        logger.error(e)
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=str(e)
         ) from e
     except Exception as e:
+        logger.error(e)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Internal Server Error"
