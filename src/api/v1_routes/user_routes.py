@@ -67,7 +67,7 @@ async def create_user(
             message="User with given details already exists") from e
     except Exception as e:
         await db.rollback()
-        logger.error("Unexpected error occurred: %s %s", e, exc_info=True)
+        logger.error("Unexpected error occurred: %s", e, exc_info=True)
         raise InternalServerException(message="Internal Server Error") from e
 
 
