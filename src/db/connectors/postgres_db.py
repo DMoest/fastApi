@@ -10,6 +10,7 @@ PostgreSQL database connection using SQLAlchemy's asynchronous engine and
 session maker.
 """
 
+import logging
 from asyncio import current_task
 from collections.abc import AsyncIterator
 
@@ -18,6 +19,9 @@ from sqlalchemy.ext.asyncio import async_sessionmaker, async_scoped_session, \
 
 from src.core.custom_exceptions import DatabaseException
 from src.core.env_config import get_settings
+
+settings = get_settings()
+logger = logging.getLogger(settings.app_logger_name)
 
 
 class PgsqlDbSessionManager:
@@ -38,37 +42,42 @@ class PgsqlDbSessionManager:
         :param db_connection_str: The database connection string.
         :type db_connection_str: str
         """
-        self._env_settings = get_settings()
+        logger.info("Initializing the PgsqlDbSessionManager instance...")
 
         # Set the database connection string based on the environment
         # settings or a provided case specific connector string...
         if db_connection_str is None:
+            logger.info("Using the default database connection string...")
             self._postgres_database_url = (
-                str(self._env_settings.pg_db_url).replace(
+                str(settings.pg_db_url).replace(
                     "postgresql://", "postgresql+asyncpg://"))
         else:
+            logger.info("Using the provided database connection string...")
             self._postgres_database_url = db_connection_str.replace(
                 "postgresql://", "postgresql+asyncpg://")
 
         # Create the async database engine...
+        logger.info("Creating the async database engine...")
         self.pgsql_db_engine = create_async_engine(
             self._postgres_database_url,
-            future=self._env_settings.pg_db_future,
-            echo=self._env_settings.pg_db_echo,
-            pool_size=self._env_settings.pg_db_connection_pool_size,
-            max_overflow=self._env_settings.pg_db_max_overflow,
+            future=settings.pg_db_future,
+            echo=settings.pg_db_echo,
+            pool_size=settings.pg_db_connection_pool_size,
+            max_overflow=settings.pg_db_max_overflow,
         )
 
         # Create the async session maker...
+        logger.info("Creating the async session maker...")
         self.session_maker = async_sessionmaker(
-            autocommit=self._env_settings.pg_db_auto_commit,
-            autoflush=self._env_settings.pg_db_auto_flush,
+            autocommit=settings.pg_db_auto_commit,
+            autoflush=settings.pg_db_auto_flush,
             bind=self.pgsql_db_engine,
             class_=AsyncSession,
-            expire_on_commit=self._env_settings.pg_db_expire_on_commit,
+            expire_on_commit=settings.pg_db_expire_on_commit,
         )
 
         # Create the scoped session...
+        logger.info("Creating the scoped session...")
         self.scoped_session = async_scoped_session(
             self.session_maker,
             scopefunc=current_task,
@@ -95,7 +104,8 @@ class PgsqlDbSessionManager:
             raise DatabaseException("Database engine is not initialized...")
         await self.pgsql_db_engine.dispose()
 
-    def get_db_connection_str(self) -> str:
+    @staticmethod
+    def get_db_connection_str() -> str:
         """
          Get the Postgres database connection string.
 
@@ -103,11 +113,11 @@ class PgsqlDbSessionManager:
         :rtype: str
         """
         return f"""
-        dbname={self._env_settings.pg_db_name}
-        user={self._env_settings.pg_db_username}
-        password={self._env_settings.pg_db_password}
-        host={self._env_settings.pg_db_host}
-        port={self._env_settings.pg_db_port}
+        dbname={settings.pg_db_name}
+        user={settings.pg_db_username}
+        password={settings.pg_db_password}
+        host={settings.pg_db_host}
+        port={settings.pg_db_port}
         """
 
 
