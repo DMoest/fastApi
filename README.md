@@ -2,7 +2,7 @@
 
 # FastAPI application backend
 
-This is a FastAPI application backend that serves as a backend for a simple web
+This is a FastAPI application that serves as a backend for a simple web
 application. The application is a simple CRUD application that allows users to
 create, read, update, and delete items.
 
