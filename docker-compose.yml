@@ -1,55 +1,69 @@
-version: '3.8'
-
 services:
     fastapi_server:
         build:
             context: .
             dockerfile: Dockerfile
+        env_file:
+            - .env
         environment:
             - APP_PORT=${APP_PORT}
-            - PG_DB_HOST=${PG_DB_HOST}
+            - PG_DB_HOST=${PG_DB_DOCKER_SERVICE_NAME}
             - PG_DB_PORT=${PG_DB_PORT}
             - PG_DB_USERNAME=${PG_DB_USERNAME}
             - PG_DB_PASSWORD=${PG_DB_PASSWORD}
             - PG_DB_NAME=${PG_DB_NAME}
         healthcheck:
-            test: [ "CMD", "curl", "-f", "http://localhost:1337/health" ]
+            test: [ "CMD-SHELL", "curl -f http://localhost:${APP_PORT}/api/utils/health_check || exit 1" ]
             interval: 1s
-            timeout: 5s
-            retries: 3
+            timeout: 3s
+            retries: 10
         ports:
             - "${APP_PORT}:${APP_PORT}"
-            - "${PG_DB_PORT}:${PG_DB_PORT}"
         networks:
-            - skynet
+            skynet:
+                ipv4_address: 172.10.0.10
         depends_on:
             postgres_db:
                 condition: service_healthy
         restart: always
 
     postgres_db:
-        image: postgres:14
+        image: postgres:16.4-alpine
+        env_file:
+            - .env
         environment:
-            POSTGRES_USER: ${PG_DB_USERNAME}
-            POSTGRES_PASSWORD: ${PG_DB_PASSWORD}
-            POSTGRES_DB: ${PG_DB_NAME}
+            POSTGRES_USER: "${PG_DB_USERNAME}"
+            POSTGRES_PASSWORD: "${PG_DB_PASSWORD}"
+            POSTGRES_DB: "${PG_DB_NAME}"
+            POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256 --auth-local=scram-sha-256"
+            POSTGRES_HOST_AUTH_METHOD: "scram-sha-256"
+            POSTGRES_LISTEN_ADDRESSES: "172.10.0.20"  # Add this line
         healthcheck:
-            test: [ "CMD-SHELL", "pg_isready -U ${PG_DB_USERNAME}" ]
+            test: [ "CMD-SHELL", "pg_isready -U ${PG_DB_USERNAME} -d ${PG_DB_NAME}" ]
             interval: 1s
-            timeout: 5s
-            retries: 3
-        ports:
-            - "${PG_DB_PORT}:${PG_DB_PORT}"
+            timeout: 3s
+            retries: 10
+        expose:
+            - ${PG_DB_PORT}
         networks:
-            - skynet
+            skynet:
+                ipv4_address: 172.10.0.20
         volumes:
-            - pg_data:/var/lib/postgresql/data
+            - ${PG_DB_VOLUME_PATH}:${PG_DB_DOCKER_DATA_PATH}
         restart: always
 
 networks:
     skynet:
         driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: 172.10.0.0/16
 
 volumes:
-    pg_data:
+    postgres_data:
         driver: local
+        driver_opts:
+            type: none
+            device: ${PG_DB_VOLUME_PATH}
+            o: bind
