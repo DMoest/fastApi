@@ -15,6 +15,7 @@ from starlette.middleware.cors import CORSMiddleware
 
 from src.api.api_utilities import api_utility_router
 from src.api.api_v1 import api_v1_router
+from src.api.api_v1_ws_router import api_ws_router
 from src.core.auth import get_api_key
 from src.core.custom_exceptions import AuthException, BadRequestException, \
     ConflictException, DatabaseException, InternalServerException, \
@@ -110,9 +111,15 @@ app.include_router(
     api_utility_router,
     dependencies=[]
 )
+
 app.include_router(
     api_v1_router,
     dependencies=[Depends(get_api_key)]
+)
+
+app.include_router(
+    api_ws_router,
+    # dependencies=[Depends(get_api_key)]
 )
 
 if __name__ == "__main__":
