@@ -22,7 +22,7 @@ logger = logging.getLogger(
 ws_router = APIRouter()
 socket_manager = WebSocketConnectionManager()
 
-html = """
+HTML = """
 <!DOCTYPE html>
 <html>
     <head>
@@ -69,7 +69,7 @@ async def get() -> HTMLResponse:
     :return: The HTML response.
     :rtype: HTMLResponse
     """
-    return HTMLResponse(html)
+    return HTMLResponse(HTML)
 
 
 @ws_router.websocket("/{client_id}")
