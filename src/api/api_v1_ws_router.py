@@ -13,7 +13,7 @@ module.
 
 from fastapi import APIRouter
 
-from api.v1_routes.web_socket_routes import ws_router
+from src.api.v1_routes.web_socket_routes import ws_router
 
 api_ws_router = APIRouter(
     prefix="/api/v1",
