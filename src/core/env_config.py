@@ -53,6 +53,15 @@ class Settings(BaseSettings):
         default="a_secret_key",
         json_schema_extra={"env_name": "APP_JWT_SECRET_KEY"})
 
+    # --- Applications registered with the API -------------------------------
+    app_1_api_key: str = Field(
+        default=None,
+        json_schema_extra={"env_name": "APP_1_API_KEY"})
+
+    # app_2_api_key: str = Field(
+    #     default=None,
+    #     json_schema_extra={"env_name": "APP_1_API_KEY"})
+
     # --- Console Logger settings --------------------------------------------
     console_logger_level: str = Field(
         default="DEBUG",
