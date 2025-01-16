@@ -125,7 +125,7 @@ class PgsqlDbSessionManager:
 session_manager = PgsqlDbSessionManager()
 
 
-async def get_db() -> AsyncIterator[AsyncSession]:
+async def get_pg_db() -> AsyncIterator[AsyncSession]:
     """
     Get a new session for the database. This method retrieves a new
     asynchronous database session from the session manager. If the session
