@@ -37,14 +37,14 @@ services:
             POSTGRES_DB: "${PG_DB_NAME}"
             POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256 --auth-local=scram-sha-256"
             POSTGRES_HOST_AUTH_METHOD: "scram-sha-256"
-            POSTGRES_LISTEN_ADDRESSES: "172.10.0.20"  # Add this line
+            POSTGRES_LISTEN_ADDRESSES: "172.10.0.20"
         healthcheck:
             test: [ "CMD-SHELL", "pg_isready -U ${PG_DB_USERNAME} -d ${PG_DB_NAME}" ]
             interval: 1s
             timeout: 3s
             retries: 10
         expose:
-            - ${PG_DB_PORT}
+            - ${PG_DB_PORT}:${PG_DB_PORT}
         networks:
             skynet:
                 ipv4_address: 172.10.0.20
