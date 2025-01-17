@@ -27,6 +27,7 @@ from src.core.exception_handlers import auth_exception_handler, \
     internal_server_exception_handler, not_found_exception_handler, \
     validation_exception_handler
 from src.core.logger_config import init_logger
+from src.db.connectors.mongo_db import MongoDBConnector
 from src.db.connectors.postgres_db import PgsqlDbSessionManager
 from src.middlewares.logger import LoggerMiddleware
 
@@ -49,8 +50,10 @@ async def app_lifespan(app_instance: FastAPI):
     app_instance.settings = settings
 
     # Initialize the database connector instances
-    logger.info("Initializing the database session managers...")
+    logger.info("Initializing the database managers...")
     postgres_connector = PgsqlDbSessionManager()
+    mongo_connector = MongoDBConnector(uri=settings.mongo_db_url)
+
     # sqlite_connector = SQLiteConnector()
 
     # Initialize the database connection pool
@@ -68,6 +71,7 @@ async def app_lifespan(app_instance: FastAPI):
     # Close the database connection pool
     logger.info("Closing the database session managers...")
     await app_instance.async_pool.close()
+    await mongo_connector.close_connection()
 
     logger.info("Application shutdown complete")
 
@@ -82,9 +86,6 @@ app = FastAPI(
     debug=bool(os.getenv("APP_DEBUG", 'False'))
 )
 
-# origins allowed
-origins = ["*"]
-
 # Exception handlers
 app.add_exception_handler(AuthException, auth_exception_handler)
 app.add_exception_handler(BadRequestException, bad_request_exception_handler)
@@ -95,6 +96,9 @@ app.add_exception_handler(InternalServerException,
 app.add_exception_handler(NotFoundException, not_found_exception_handler)
 app.add_exception_handler(ValidationException, validation_exception_handler)
 app.add_exception_handler(HTTPException, http_exception_handler)
+
+# origins allowed
+origins = ["*"]
 
 # Middleware
 app.add_middleware(LoggerMiddleware)
@@ -119,7 +123,7 @@ app.include_router(
 
 app.include_router(
     api_ws_router,
-    # dependencies=[Depends(get_api_key)]
+    dependencies=[Depends(get_api_key)]
 )
 
 if __name__ == "__main__":
