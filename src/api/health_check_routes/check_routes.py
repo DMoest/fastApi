@@ -30,5 +30,5 @@ async def health_check() -> ORJSONResponse:
     logger.info("Health check endpoint called...")
     return ORJSONResponse(
         status_code=status.HTTP_200_OK,
-        content="Server startup healthy..."
+        content="Server is OK"
     )
